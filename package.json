@@ -5,8 +5,8 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc",
-        "prerun:dev": "npm run build",
-        "run:dev": "nodemon src/index.ts"
+        "predev:watch": "npm run build",
+        "dev:watch": "nodemon src/index.ts"
     },
     "keywords": [],
     "author": "",
