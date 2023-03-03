@@ -1,17 +1,17 @@
 import axios from 'axios'
 
-const BASE_URL = 'https://collectionapi.metmuseum.org/public/collection/v1/'
+const BASE_URL = 'https://collectionapi.metmuseum.org/public/collection/v1'
 
-type GetObjectIDsResponse = {
+type GetAllObjectsWithImagesResponse = {
     total: number
     objectIDs: number[]
 }
 
 type GetObjectResponse = {}
 
-export async function getObjectIds(): Promise<GetObjectIDsResponse | null> {
+export async function getAllObjectsWithImages(): Promise<GetAllObjectsWithImagesResponse | null> {
     try {
-        const response = await axios.get<GetObjectIDsResponse>(BASE_URL.concat('/objects'))
+        const response = await axios.get<GetAllObjectsWithImagesResponse>(BASE_URL.concat('/search?q=.&hasImages=true'))
 
         return response.data
     } catch (ex) {

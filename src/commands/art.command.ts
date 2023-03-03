@@ -1,18 +1,12 @@
 import { CommandInteraction, Client, ApplicationCommandType, Embed, EmbedBuilder } from 'discord.js'
 
 import { Command } from './base.command'
-import { pickRandomElement, pickRandomInt } from '../utils'
-import { getObjectIds } from '../services'
-
-const PHRASES = ['watchu think?', 'u like?', 'lol', 'UwU', 'OwO', 'oh yeah', 'omg', 'chefs kiss']
+import { getAllObjectsWithImages } from '../services'
 
 async function execute(_client: Client, interaction: CommandInteraction) {
-    // this is slow as hell, for now just pick a number between 1 - max for now, it'll probably work
-    // const objectIDs = await getObjectIds()
+    const objectsWithImages = await getAllObjectsWithImages()
 
-    const objectId = pickRandomInt(1, 485_000)
-
-    console.log({ objectId })
+    console.log({ objectsWithImages })
 
     // prettier-ignore
     const embed = new EmbedBuilder()
@@ -20,7 +14,7 @@ async function execute(_client: Client, interaction: CommandInteraction) {
         .setTitle('Some kitten')
         .setDescription('Some kitty')
 
-    await interaction.followUp({ ephemeral: true, content: pickRandomElement(PHRASES), embeds: [embed] })
+    await interaction.followUp({ ephemeral: true, content: 'i show u art', embeds: [embed] })
 }
 
 export const ArtCommand: Command = {
