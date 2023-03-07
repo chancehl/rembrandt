@@ -6,8 +6,8 @@ import { getAllObjectsWithImages, getObjectsByQuery } from '../services'
 async function execute(_client: Client, interaction: CommandInteraction) {
     const query = interaction.options.get('query')
 
-    if (query != null && query.value != null) {
-        const objects = await getObjectsByQuery(query.value as string)
+    if (query != null && query.value) {
+        const objects = await getObjectsByQuery(query.value as string, { includesImages: true })
 
         console.log('matching objects', { objects })
     } else {
@@ -18,9 +18,11 @@ async function execute(_client: Client, interaction: CommandInteraction) {
 
     // prettier-ignore
     const embed = new EmbedBuilder()
-        .setImage('http://placekitten.com/200/300')
+        .setImage('https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png')
         .setTitle('Some kitten')
         .setDescription('Some kitty')
+
+    console.log({ embed })
 
     await interaction.followUp({ ephemeral: true, content: 'i show u art', embeds: [embed] })
 }

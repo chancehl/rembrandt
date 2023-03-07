@@ -1,13 +1,8 @@
 import axios from 'axios'
 
+import { GetObjectResponse, SearchObjectsResponse } from './metApiService.types'
+
 const BASE_URL = 'https://collectionapi.metmuseum.org/public/collection/v1'
-
-type SearchObjectsResponse = {
-    total: number
-    objectIDs: number[]
-}
-
-type GetObjectResponse = {}
 
 export async function getAllObjectsWithImages(): Promise<SearchObjectsResponse | null> {
     try {
@@ -19,9 +14,9 @@ export async function getAllObjectsWithImages(): Promise<SearchObjectsResponse |
     }
 }
 
-export async function getObjectsByQuery(q: string): Promise<SearchObjectsResponse | null> {
+export async function getObjectsByQuery(q: string, options?: { includesImages?: boolean }): Promise<SearchObjectsResponse | null> {
     try {
-        const response = await axios.get<SearchObjectsResponse>(BASE_URL.concat(`/search?q=${encodeURIComponent(q)}&hasImages=true`))
+        const response = await axios.get<SearchObjectsResponse>(BASE_URL.concat(`/search?q=${encodeURIComponent(q)}&hasImages=${options?.includesImages ?? false}`))
 
         return response.data
     } catch (ex) {
