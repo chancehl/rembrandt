@@ -3,10 +3,12 @@ export type SearchObjectsResponse = {
     objectIDs: number[]
 }
 
-export type GetObjectResponse = Partial<Object> & { objectID: number }
+export type GetObjectResponse = MetApiObject
+
+export type MetApiObject = Partial<Object> & { objectID: number }
 
 // This was generated using ChatGPT. TODO: validate fields & make appropriate values nullable
-export type Object = {
+type Object = {
     objectID: number
     isHighlight: boolean
     accessionNumber: string

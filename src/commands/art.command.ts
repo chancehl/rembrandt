@@ -1,24 +1,35 @@
 import { CommandInteraction, Client, ApplicationCommandType, EmbedBuilder, SlashCommandStringOption } from 'discord.js'
 
 import { Command } from './base.command'
-import { getAllObjectsWithImages, getObjectsByQuery } from '../services'
+import { pickRandomElement } from '../utils'
+import { getAllObjectsWithImages, getObject, getObjectsByQuery } from '../services'
+
+const DEFAULT_IMAGE_URL = 'https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png'
 
 async function execute(_client: Client, interaction: CommandInteraction) {
     const query = interaction.options.get('query')
 
-    if (query != null && query.value) {
-        const objects = await getObjectsByQuery(query.value as string, { includesImages: true })
+    let objectIds: number[] = []
 
-        console.log('matching objects', { objects })
+    if (query != null && query.value) {
+        const objects = await getObjectsByQuery(query.value as string)
+
+        objectIds = objects?.objectIDs ?? []
     } else {
         const objectsWithImages = await getAllObjectsWithImages()
 
-        console.log('all objects with images', { objectsWithImages })
+        objectIds = objectsWithImages?.objectIDs ?? []
     }
+
+    const objectId = pickRandomElement(objectIds)
+
+    const object = await getObject(objectId)
+
+    console.log({ object })
 
     // prettier-ignore
     const embed = new EmbedBuilder()
-        .setImage('https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png')
+        .setImage(object?.primaryImage ?? DEFAULT_IMAGE_URL)
         .setTitle('Some kitten')
         .setDescription('Some kitty')
 
@@ -31,7 +42,7 @@ async function execute(_client: Client, interaction: CommandInteraction) {
 const queryOption = new SlashCommandStringOption()
     .setName('query')
     .setDescription('something to search for')
-    .setMinLength(2)
+    .setMinLength(3)
     .setMaxLength(50);
 
 export const ArtCommand: Command = {
