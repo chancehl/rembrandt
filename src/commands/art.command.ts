@@ -1,10 +1,8 @@
-import { CommandInteraction, Client, ApplicationCommandType, EmbedBuilder, SlashCommandStringOption } from 'discord.js'
+import { CommandInteraction, Client, ApplicationCommandType, EmbedBuilder, SlashCommandStringOption, APIEmbedField } from 'discord.js'
 
 import { Command } from './base.command'
 import { pickRandomElement } from '../utils'
-import { getAllObjectsWithImages, getObject, getObjectsByQuery } from '../services'
-
-const DEFAULT_IMAGE_URL = 'https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png'
+import { EmbedService, getAllObjectsWithImages, getObject, getObjectsByQuery } from '../services'
 
 async function execute(_client: Client, interaction: CommandInteraction) {
     const query = interaction.options.get('query')
@@ -21,21 +19,15 @@ async function execute(_client: Client, interaction: CommandInteraction) {
         objectIds = objectsWithImages?.objectIDs ?? []
     }
 
-    const objectId = pickRandomElement(objectIds)
+    const object = await getObject(pickRandomElement(objectIds))
 
-    const object = await getObject(objectId)
-
-    console.log({ object })
-
-    // prettier-ignore
-    const embed = new EmbedBuilder()
-        .setImage(object?.primaryImage ?? DEFAULT_IMAGE_URL)
-        .setTitle('Some kitten')
-        .setDescription('Some kitty')
-
-    console.log({ embed })
-
-    await interaction.followUp({ ephemeral: true, content: 'i show u art', embeds: [embed] })
+    if (object) {
+        await interaction.followUp({
+            ephemeral: true,
+            content: 'i show u art',
+            embeds: [EmbedService.generateEmbedFromObject(object)],
+        })
+    }
 }
 
 // prettier-ignore
