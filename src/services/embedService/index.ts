@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js'
 
-import { CollectionObject } from './metApiService.types'
+import type { CollectionObject } from '../metApiService'
 
 type GenerateEmbedFromObjectsParams = {
     object: Partial<CollectionObject>

@@ -1,5 +1,5 @@
 import { EmbedBuilder } from '@discordjs/builders'
-import { EmbedService } from './embedService'
+import { EmbedService } from '.'
 
 describe('EmbedService', () => {
     const testEmbedBuilder = new EmbedBuilder()

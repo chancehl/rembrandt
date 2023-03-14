@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { GetObjectResponse, SearchObjectsResponse } from './metApiService.types'
+import { GetObjectResponse, SearchObjectsResponse } from './index.types'
 
 const BASE_URL = 'https://collectionapi.metmuseum.org/public/collection/v1'
 
@@ -33,3 +33,5 @@ export async function getObject(id: number): Promise<GetObjectResponse | null> {
         return null
     }
 }
+
+export * from './index.types'
