@@ -2,10 +2,15 @@ import { EmbedBuilder } from 'discord.js'
 
 import { CollectionObject } from './metApiService.types'
 
+type GenerateEmbedFromObjectsParams = {
+    object: Partial<CollectionObject>
+    builder?: EmbedBuilder
+}
+
 export class EmbedService {
     /** Generates a series of key-value pair objects based on the fields present in the response */
-    static generateEmbedFromObject(object: Partial<CollectionObject>) {
-        const embed = new EmbedBuilder()
+    static generateEmbedFromObject({ object, builder }: GenerateEmbedFromObjectsParams) {
+        const embed = builder ?? new EmbedBuilder()
 
         if (object.primaryImage) {
             embed.setImage(object.primaryImage)

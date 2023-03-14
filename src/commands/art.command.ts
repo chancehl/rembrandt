@@ -1,4 +1,4 @@
-import { CommandInteraction, Client, ApplicationCommandType, EmbedBuilder, SlashCommandStringOption, APIEmbedField } from 'discord.js'
+import { CommandInteraction, Client, ApplicationCommandType, SlashCommandStringOption } from 'discord.js'
 
 import { Command } from './base.command'
 import { pickRandomElement } from '../utils'
@@ -22,10 +22,12 @@ async function execute(_client: Client, interaction: CommandInteraction) {
     const object = await getObject(pickRandomElement(objectIds))
 
     if (object) {
+        const embed = EmbedService.generateEmbedFromObject({ object })
+
         await interaction.followUp({
             ephemeral: true,
             content: 'i show u art',
-            embeds: [EmbedService.generateEmbedFromObject(object)],
+            embeds: [embed],
         })
     }
 }
