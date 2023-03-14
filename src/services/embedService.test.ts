@@ -8,7 +8,6 @@ describe('EmbedService', () => {
         const titleSpy = jest.spyOn(testEmbedBuilder, 'setTitle')
 
         EmbedService.generateEmbedFromObject({ object: { objectID: -1, title: 'title' }, builder: testEmbedBuilder })
-        EmbedService.generateEmbedFromObject({ object: { objectID: -1, title: undefined }, builder: testEmbedBuilder })
 
         expect(titleSpy).toHaveBeenCalledTimes(1)
         expect(titleSpy).toHaveBeenCalledWith('title')
@@ -18,7 +17,7 @@ describe('EmbedService', () => {
         const descriptionSpy = jest.spyOn(testEmbedBuilder, 'setDescription')
 
         EmbedService.generateEmbedFromObject({ object: { objectID: -1, artistDisplayName: 'chance' }, builder: testEmbedBuilder })
-        EmbedService.generateEmbedFromObject({ object: { objectID: -1, artistDisplayName: undefined }, builder: testEmbedBuilder })
+
         expect(descriptionSpy).toHaveBeenCalledTimes(1)
         expect(descriptionSpy).toHaveBeenCalledWith('by chance')
     })
@@ -27,9 +26,23 @@ describe('EmbedService', () => {
         const imageSpy = jest.spyOn(testEmbedBuilder, 'setImage')
 
         EmbedService.generateEmbedFromObject({ object: { objectID: -1, primaryImage: 'https://not-a-real-site.com/img.png' }, builder: testEmbedBuilder })
-        EmbedService.generateEmbedFromObject({ object: { objectID: -1, primaryImage: undefined }, builder: testEmbedBuilder })
 
         expect(imageSpy).toHaveBeenCalledTimes(1)
         expect(imageSpy).toHaveBeenCalledWith('https://not-a-real-site.com/img.png')
+    })
+
+    test('sets the fields for each relevant property on the object', () => {
+        const fieldSpy = jest.spyOn(testEmbedBuilder, 'addFields')
+
+        // each of these should trigger addField
+        const relevantData = {
+            objectDate: '573',
+            department: 'Egyptian art',
+            dimensions: "10' x 10' x 5'",
+        }
+
+        EmbedService.generateEmbedFromObject({ object: { objectID: -1, ...relevantData }, builder: testEmbedBuilder })
+
+        expect(fieldSpy).toHaveBeenCalledTimes(Object.keys(relevantData).length)
     })
 })
