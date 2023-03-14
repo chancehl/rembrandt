@@ -2,7 +2,10 @@ import { CommandInteraction, Client, ApplicationCommandType, SlashCommandStringO
 
 import { Command } from './base.command'
 import { pickRandomElement } from '../utils'
-import { EmbedService, getAllObjectsWithImages, getObject, getObjectsByQuery } from '../services'
+import { EmbedService, getAllObjectsWithImages, getObject, getObjectsByQuery, SearchObjectsResponse } from '../services'
+import { RedisClientManager } from '../cache'
+
+const redisClient = RedisClientManager.getInstance()
 
 async function execute(_client: Client, interaction: CommandInteraction) {
     const query = interaction.options.get('query')
@@ -10,7 +13,20 @@ async function execute(_client: Client, interaction: CommandInteraction) {
     let objectIds: number[] = []
 
     if (query != null && query.value) {
-        const objects = await getObjectsByQuery(query.value as string)
+        const queryValue = query.value as string
+
+        let objects: SearchObjectsResponse | null
+
+        const cachedObjects = await redisClient.get(queryValue)
+
+        if (cachedObjects) {
+            objects = JSON.parse(cachedObjects) as SearchObjectsResponse
+        } else {
+            objects = await getObjectsByQuery(queryValue)
+
+            // cache this query
+            await redisClient.set(queryValue, JSON.stringify(objects))
+        }
 
         objectIds = objects?.objectIDs ?? []
     } else {
