@@ -1,4 +1,4 @@
-export type SearchObjectsResponse = {
+export type SearchCollectionObjectsResponse = {
     total: number
     objectIDs: number[]
 }
@@ -57,4 +57,4 @@ export type CollectionObject = {
     geography: string
 }
 
-export type GetObjectResponse = Partial<CollectionObject> & { objectID: number }
+export type GetCollectionObjectResponse = Partial<CollectionObject> & { objectID: number }
