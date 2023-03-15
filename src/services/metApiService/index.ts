@@ -4,7 +4,7 @@ import { GetObjectResponse, SearchObjectsResponse } from './index.types'
 
 const BASE_URL = 'https://collectionapi.metmuseum.org/public/collection/v1'
 
-export async function getAllObjectsWithImages(): Promise<SearchObjectsResponse | null> {
+export async function getAllCollectionObjectsWithImages(): Promise<SearchObjectsResponse | null> {
     try {
         const { data } = await axios.get<SearchObjectsResponse>(BASE_URL.concat('/search?q=.&hasImages=true'))
 
@@ -14,7 +14,7 @@ export async function getAllObjectsWithImages(): Promise<SearchObjectsResponse |
     }
 }
 
-export async function getObjectsByQuery(q: string): Promise<SearchObjectsResponse | null> {
+export async function getCollectionObjectsByQuery(q: string): Promise<SearchObjectsResponse | null> {
     try {
         const { data } = await axios.get<SearchObjectsResponse>(BASE_URL.concat(`/search?q=${encodeURIComponent(q)}&hasImages=true`))
 
@@ -24,7 +24,7 @@ export async function getObjectsByQuery(q: string): Promise<SearchObjectsRespons
     }
 }
 
-export async function getObject(id: number): Promise<GetObjectResponse | null> {
+export async function getCollectionObject(id: number): Promise<GetObjectResponse | null> {
     try {
         const { data } = await axios.get<GetObjectResponse>(BASE_URL.concat(`/objects/${id}`))
 

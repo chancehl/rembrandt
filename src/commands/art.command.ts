@@ -2,7 +2,7 @@ import { CommandInteraction, Client, ApplicationCommandType, SlashCommandStringO
 
 import { Command } from './base.command'
 import { pickRandomElement } from '../utils'
-import { EmbedService, getAllObjectsWithImages, getObject, getObjectsByQuery, SearchObjectsResponse } from '../services'
+import { EmbedService, getAllCollectionObjectsWithImages, getCollectionObject, getCollectionObjectsByQuery, SearchObjectsResponse } from '../services'
 import { RedisClientManager } from '../cache'
 
 const redisClient = RedisClientManager.getInstance()
@@ -22,7 +22,7 @@ async function execute(_client: Client, interaction: CommandInteraction) {
         if (cachedObjects) {
             objects = JSON.parse(cachedObjects) as SearchObjectsResponse
         } else {
-            objects = await getObjectsByQuery(queryValue)
+            objects = await getCollectionObjectsByQuery(queryValue)
 
             // cache this query
             await redisClient.set(queryValue, JSON.stringify(objects))
@@ -30,12 +30,12 @@ async function execute(_client: Client, interaction: CommandInteraction) {
 
         objectIds = objects?.objectIDs ?? []
     } else {
-        const objectsWithImages = await getAllObjectsWithImages()
+        const objectsWithImages = await getAllCollectionObjectsWithImages()
 
         objectIds = objectsWithImages?.objectIDs ?? []
     }
 
-    const object = await getObject(pickRandomElement(objectIds))
+    const object = await getCollectionObject(pickRandomElement(objectIds))
 
     if (object) {
         const embed = EmbedService.generateEmbedFromObject({ object })
