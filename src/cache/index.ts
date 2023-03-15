@@ -9,7 +9,7 @@ export class RedisClientManager {
 
     public static getInstance(): RedisClient {
         if (RedisClientManager.instance == null) {
-            this.instance = createClient()
+            this.instance = createClient({ url: 'redis://redis:6379' })
         }
 
         return this.instance

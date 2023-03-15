@@ -7,7 +7,9 @@
         "build": "tsc",
         "dev:watch": "nodemon src/index.ts",
         "predev:watch": "npm run build",
-        "start": "concurrently \"npm run start:cache\" \"npm run start:server\"",
+        "prestart": "npm run build",
+        "start": "node ./dist/index.js",
+        "start:dev": "concurrently \"npm run start:cache\" \"npm run start:server\"",
         "start:cache": "docker run -p 6379:6379 redis/redis-stack-server:latest",
         "start:server": "node ./dist/index.js",
         "test": "jest"
