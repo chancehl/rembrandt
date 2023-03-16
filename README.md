@@ -34,7 +34,7 @@ First, run `npm install` to install the dependencies you need to run this projec
 
 Run `npm run dev:watch` to start the bot in watch mode. This is useful for developing, but if you plan to not make any changes to the code, you can compile the code and then run the bot via `npm run build && npm run start`. The redis cache will also need to be started in order for the bot to function. Run `npm run start:redis` (this is a long running process, so run this in a new terminal window) to start the redis cache.
 
-(Optional) If you prefer to have everything in a single console window, you can use [concurrently](https://www.npmjs.com/package/concurrently) to run both tasks at once. Install concurrently globally by running `npm install -g concurrently` and then run `concurrently \"npm run dev:watch\" \"npm run start:redis\"` (you can replace `npm run build && npm run start` if you prefer the compile > run method).
+(Optional) If you prefer to have everything in a single console window, you can use [concurrently](https://www.npmjs.com/package/concurrently) to run both tasks at once. Install concurrently globally by running `npm install -g concurrently` and then run `concurrently \"npm run dev:watch\" \"npm run start:redis\"` (you can replace `npm run dev:watch` with `npm run build && npm run start` if you prefer the compile > run method).
 
 Bot logs will be printed to the console.
 
