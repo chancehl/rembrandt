@@ -12,7 +12,7 @@
     },
     "keywords": [],
     "author": "Chance Linz <clinz.dev@gmail.com",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
         "@types/jest": "^29.4.1",
         "concurrently": "^7.6.0",
