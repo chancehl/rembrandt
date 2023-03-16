@@ -2,7 +2,7 @@
 
 ## Overview
 
-Rembrandt is a [Discord](https://discord.com/) bot that helps teach your server about art history and appreciation. It will periodically send the server random paintings, artifacts and sculptures within the [Metropolitan Museum of Art] collection with accompanying information on the piece.
+Rembrandt is a [Discord](https://discord.com/) bot that helps teach your server about art history and appreciation. It will periodically send the server random paintings, artifacts and sculptures within the [Metropolitan Museum of Art](https://www.metmuseum.org/) collection with accompanying information on the piece.
 
 <img src="./rembrandt.jpg" height="400" />
 
