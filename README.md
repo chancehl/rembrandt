@@ -52,7 +52,10 @@ You can run `docker logs rembrandt-bot-1 -f` to see the logs for the bot.
 
 ## Roadmap
 
-✨ In progress
+| Feature                       | Status      | Notes                                                 |
+| ----------------------------- | ----------- | ----------------------------------------------------- |
+| Bot hosted                    | In progress | N/A                                                   |
+| Daily artwork displays (push) | Not started | I want to complete the hosting of the bot before this |
 
 ## Notes
 
