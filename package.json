@@ -5,8 +5,8 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc",
-        "dev:watch": "NODE_ENV=development nodemon src/index.ts",
-        "start": "node ./dist/index.js",
+        "dev:watch": "NODE_ENV=development nodemon src/bot.ts",
+        "start": "node ./dist/bot.js",
         "start:redis": "docker run -p 6379:6379 redis/redis-stack-server:latest",
         "test": "jest"
     },
