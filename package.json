@@ -1,7 +1,7 @@
 {
     "name": "rembrandt",
     "version": "1.0.0",
-    "description": "",
+    "description": "A Discord bot that shows you art",
     "main": "index.js",
     "scripts": {
         "build": "tsc",
@@ -11,7 +11,7 @@
         "test": "jest"
     },
     "keywords": [],
-    "author": "",
+    "author": "Chance Linz <clinz.dev@gmail.com",
     "license": "ISC",
     "devDependencies": {
         "@types/jest": "^29.4.1",
