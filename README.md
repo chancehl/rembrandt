@@ -50,6 +50,20 @@ You can run `docker logs rembrandt-bot-1 -f` to see the logs for the bot.
 | ------- | ---------------- | ----------------------------------------------------------- |
 | /art    | query (optional) | Artwork will be picked at random unless a query is provided |
 
+## Technologies
+
+This bot is built with...
+
+| Technology                            | Use                                                                              |
+| ------------------------------------- | -------------------------------------------------------------------------------- |
+| [Discord.js](https://discord.js.org/) | The bot SDK                                                                      |
+| Redis                                 | Caching                                                                          |
+| Typescript (& ts-node)                | A type-safe, compiled programming language that acts as a superset of Javascript |
+| Jest (& ts-jest)                      | For testing                                                                      |
+| Prettier                              | For code formatting                                                              |
+| ESLint                                | Linting                                                                          |
+| Axios                                 | Network requests                                                                 |
+
 ## Roadmap
 
 | Feature                       | Status      | Notes                                                 |
