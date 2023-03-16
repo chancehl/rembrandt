@@ -63,3 +63,7 @@ The commit spec I'm using follows two conventions: [gitmoji](https://gitmoji.dev
 ### Missing images
 
 For some reason, the [MET API](https://metmuseum.github.io/) includes artwork without images in their responses despite having a query parameter `hasImages=true` that tells it to do so. This causes some `/art` commands to be sent without embedded images.
+
+### Query inaccuracy
+
+This bot tends to be rather "fuzzy" when querying for art. There's two things that make it rather difficult at the moment to generate highly accurate searches. One, the MET API just generally returns a ton of artwork for queries, even if it's only barely accurate. For example the query "birdhouse" will return birdhouses, birds, and houses; the query "waterfall" will return artwork depicting majestic waterfalls _and_ people falling from various structures. Secondly, the bot picks an image at random from the returned artwork. Even if the first few results are highly accurate, the bot will pick one at random in order to keep things interesting for the end user. I have ways that I think I can improve this over time, but I intend to leave the querying/searching functionality somewhat fuzzy as I think it makes things more fun in the end.
