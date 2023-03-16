@@ -1,6 +1,5 @@
 import dotenv from 'dotenv'
 import { Client, Events, GatewayIntentBits, Interaction } from 'discord.js'
-import { createClient } from 'redis'
 
 import { commands } from './commands'
 import { handleSlashCommand } from './interaction'

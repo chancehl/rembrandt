@@ -1,5 +1,6 @@
 import { EmbedBuilder } from '@discordjs/builders'
-import { EmbedService } from '.'
+
+import { generateEmbedFromObject } from './index'
 
 describe('EmbedService', () => {
     const testEmbedBuilder = new EmbedBuilder()
@@ -7,7 +8,7 @@ describe('EmbedService', () => {
     test('sets the title when one is present on the object', () => {
         const titleSpy = jest.spyOn(testEmbedBuilder, 'setTitle')
 
-        EmbedService.generateEmbedFromObject({ object: { objectID: -1, title: 'title' }, builder: testEmbedBuilder })
+        generateEmbedFromObject({ object: { objectID: -1, title: 'title' }, builder: testEmbedBuilder })
 
         expect(titleSpy).toHaveBeenCalledTimes(1)
         expect(titleSpy).toHaveBeenCalledWith('title')
@@ -16,7 +17,7 @@ describe('EmbedService', () => {
     test('sets the description when the artist display name is present on the object', () => {
         const descriptionSpy = jest.spyOn(testEmbedBuilder, 'setDescription')
 
-        EmbedService.generateEmbedFromObject({ object: { objectID: -1, artistDisplayName: 'chance' }, builder: testEmbedBuilder })
+        generateEmbedFromObject({ object: { objectID: -1, artistDisplayName: 'chance' }, builder: testEmbedBuilder })
 
         expect(descriptionSpy).toHaveBeenCalledTimes(1)
         expect(descriptionSpy).toHaveBeenCalledWith('by chance')
@@ -25,7 +26,7 @@ describe('EmbedService', () => {
     test('sets the image when the primary image name is present on the object', () => {
         const imageSpy = jest.spyOn(testEmbedBuilder, 'setImage')
 
-        EmbedService.generateEmbedFromObject({ object: { objectID: -1, primaryImage: 'https://not-a-real-site.com/img.png' }, builder: testEmbedBuilder })
+        generateEmbedFromObject({ object: { objectID: -1, primaryImage: 'https://not-a-real-site.com/img.png' }, builder: testEmbedBuilder })
 
         expect(imageSpy).toHaveBeenCalledTimes(1)
         expect(imageSpy).toHaveBeenCalledWith('https://not-a-real-site.com/img.png')
@@ -41,7 +42,7 @@ describe('EmbedService', () => {
             dimensions: "10' x 10' x 5'",
         }
 
-        EmbedService.generateEmbedFromObject({ object: { objectID: -1, ...relevantData }, builder: testEmbedBuilder })
+        generateEmbedFromObject({ object: { objectID: -1, ...relevantData }, builder: testEmbedBuilder })
 
         expect(fieldSpy).toHaveBeenCalledTimes(Object.keys(relevantData).length)
     })

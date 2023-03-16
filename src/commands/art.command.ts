@@ -1,15 +1,15 @@
-import { CommandInteraction, Client, ApplicationCommandType, SlashCommandStringOption } from 'discord.js'
+import { CommandInteraction, Client, ApplicationCommandType, SlashCommandStringOption, CommandInteractionOption, CacheType } from 'discord.js'
 
 import { Command } from './base.command'
+
 import { pickRandomElement } from '../utils'
-import { EmbedService, getAllCollectionObjectsWithImages, getCollectionObject, getCollectionObjectsByQuery, SearchCollectionObjectsResponse } from '../services'
 import { RedisClientManager } from '../cache'
+import { SearchCollectionObjectsResponse } from '../types'
+import { getAllCollectionObjectsWithImages, getCollectionObject, getCollectionObjectsByQuery, generateEmbedFromObject } from '../services'
 
 const redisClient = RedisClientManager.getInstance()
 
-async function execute(_client: Client, interaction: CommandInteraction) {
-    const query = interaction.options.get('query')
-
+async function getCollectionObjectIds(query: CommandInteractionOption<CacheType> | null) {
     let objectIds: number[] = []
 
     if (query != null && query.value) {
@@ -35,16 +35,36 @@ async function execute(_client: Client, interaction: CommandInteraction) {
         objectIds = objectsWithImages?.objectIDs ?? []
     }
 
-    const object = await getCollectionObject(pickRandomElement(objectIds))
+    return objectIds
+}
 
-    if (object) {
-        const embed = EmbedService.generateEmbedFromObject({ object })
+async function execute(_client: Client, interaction: CommandInteraction) {
+    try {
+        // parse query
+        const query = interaction.options.get('query')
 
+        // get all collection object ids
+        const objectIds = await getCollectionObjectIds(query)
+
+        // pick a random element
+        const objectId = pickRandomElement(objectIds)
+
+        // get a specific object
+        const object = await getCollectionObject(objectId)
+
+        // generate an embed with all the appropriate object data
+        const embed = generateEmbedFromObject({ object })
+
+        // reply
         await interaction.followUp({
             ephemeral: true,
             content: 'i show u art',
             embeds: [embed],
         })
+    } catch (err) {
+        console.error(err, { getAllCollectionObjectsWithImages, getCollectionObject })
+
+        await interaction.followUp({ ephemeral: true, content: 'Something went wrong. Sorry!' })
     }
 }
 
