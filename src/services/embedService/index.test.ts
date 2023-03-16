@@ -40,6 +40,7 @@ describe('EmbedService', () => {
             objectDate: '573',
             department: 'Egyptian art',
             dimensions: "10' x 10' x 5'",
+            primaryImage: 'https://not-a-real-image.com/fake.png',
         }
 
         generateEmbedFromObject({ object: { objectID: -1, ...relevantData }, builder: testEmbedBuilder })

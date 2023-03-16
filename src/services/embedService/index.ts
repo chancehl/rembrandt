@@ -35,5 +35,10 @@ export function generateEmbedFromObject({ object, builder }: GenerateEmbedFromOb
         embed.addFields({ name: 'Dimensions', value: object.dimensions })
     }
 
+    // note: this is purposefully duplicated here so that the download link goes at the bottom
+    if (object.primaryImage) {
+        embed.addFields({ name: 'Download link', value: object.primaryImage })
+    }
+
     return embed
 }
