@@ -59,3 +59,7 @@ You can run `docker logs rembrandt-bot-1 -f` to see the logs for the bot.
 A quick word on commit messages in this project... I've recently started fiddling with ways to enhance my development workflow using AI. One practical appliation that I've found so far is having AI generate my commit messages for me. All of the commit messages in this project are generated using [opencommit](https://github.com/di-sukharev/opencommit) which uses [OpenAI's GPT-4](https://openai.com/product/gpt-4) underneath the hood. I've found that for the most part these commit messages are spot on. However, there have been a few instances where the commit messages don't 100% line up with what is actually being changed. I'm okay with that considering that this is a personal project and I'll likely be the only contributor anyways.
 
 The commit spec I'm using follows two conventions: [gitmoji](https://gitmoji.dev/) and [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
+### Missing images
+
+For some reason, the [MET API](https://metmuseum.github.io/) includes artwork without images in their responses despite having a query parameter `hasImages=true` that tells it to do so. This causes some `/art` commands to be sent without embedded images.
