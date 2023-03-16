@@ -38,7 +38,7 @@ async function getCollectionObjectIds(query: CommandInteractionOption<CacheType>
     return objectIds
 }
 
-async function execute(_client: Client, interaction: CommandInteraction) {
+async function execute(interaction: CommandInteraction) {
     try {
         // parse query
         const query = interaction.options.get('query')
