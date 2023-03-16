@@ -14,11 +14,10 @@ To run the bot you'll need the following:
 
 -   [nodejs](https://nodejs.org/en/) version 16+
 -   [docker](https://www.docker.com/) and the [docker compose](https://docs.docker.com/compose/) plugin
+-   [redis](https://redis.io/)
 -   a [discord bot token](https://discord.com/developers) (see below)
 
 ### Creating a discord application and bot
-
-_So first things first..._ Why do you need to create a bot application?
 
 When the "official" Rembrandt bot joins your server, it will be hosted and running via my own application with my own client keys and secrets. However, since those are private, you'll need one of your own to run the bot.
 
@@ -33,7 +32,7 @@ First, run `npm install` to install the dependencies you need to run this projec
 
 #### On your machine
 
-Run `npm run dev:watch` to start the bot in watch mode. This is useful for developing, but if you plan to not make any changes to the code, you can compile the code and then run the bot via `npm run build && npm run start`.
+Run `npm run dev:watch` to start the bot in watch mode. This is useful for developing, but if you plan to not make any changes to the code, you can compile the code and then run the bot via `npm run build && npm run start`. The redis cache will also need to be started in order for the bot to function. Run `npm run start:redis` (this is a long running process, so run this in a new terminal window) to start the redis cache.
 
 Bot logs will be printed to the console.
 
