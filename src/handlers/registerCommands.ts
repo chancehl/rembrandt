@@ -21,6 +21,4 @@ export async function registerCommands(bot: ReadyClient) {
 
         process.exit(1)
     }
-
-    console.log(`Ready! Logged in as ${bot.user.tag}`)
 }
