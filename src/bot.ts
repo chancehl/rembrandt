@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { Client as BotClient, Events, GatewayIntentBits } from 'discord.js'
 
-import { handleInteraction, handleClientReadyEvent } from './handlers'
+import { handleInteraction, registerCommands } from './handlers'
 
 // init .env vars
 dotenv.config()
@@ -11,7 +11,7 @@ if (process.env.DISCORD_BOT_TOKEN) {
     const bot = new BotClient({ intents: [GatewayIntentBits.Guilds] })
 
     // register global setup on ready
-    bot.once(Events.ClientReady, handleClientReadyEvent)
+    bot.once(Events.ClientReady, registerCommands)
 
     // register interactions
     bot.on('interactionCreate', handleInteraction)

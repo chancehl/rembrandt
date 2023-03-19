@@ -1,2 +1,2 @@
 export * from './interactionCreate'
-export * from './clientReadyEvent'
+export * from './registerCommands'
