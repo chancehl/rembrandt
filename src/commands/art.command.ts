@@ -12,11 +12,7 @@ async function execute(interaction: CommandInteraction) {
 
         const embed = generateEmbedFromObject({ object })
 
-        await interaction.followUp({
-            ephemeral: true,
-            content: 'i show u art',
-            embeds: [embed],
-        })
+        await interaction.followUp({ ephemeral: true, embeds: [embed] })
     } catch (err) {
         await interaction.followUp({ ephemeral: true, content: 'Something went wrong. Sorry!' })
     }
