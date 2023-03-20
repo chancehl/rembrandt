@@ -10,7 +10,7 @@ async function execute(interaction: CommandInteraction) {
     console.log({ channel })
 
     // reply
-    await interaction.reply('Testing')
+    await interaction.followUp({ content: 'Testing' })
 }
 
 // prettier-ignore
