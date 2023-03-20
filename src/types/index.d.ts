@@ -3,6 +3,8 @@ export type SearchCollectionObjectsResponse = {
     objectIDs: number[]
 }
 
+export type GetAllCollectionObjectsResponse = SearchCollectionObjectsResponse // same signature
+
 export type Constituent = {
     constituentID: number
     role: string

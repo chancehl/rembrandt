@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { CollectionObject, SearchCollectionObjectsResponse } from '../../types'
+import { CollectionObject, GetAllCollectionObjectsResponse, SearchCollectionObjectsResponse } from '../../types'
 import { pickRandomElement } from '../../utils'
 
 export const BASE_URL = 'https://collectionapi.metmuseum.org/public/collection/v1'
@@ -22,6 +22,12 @@ export class MetCollectionService {
 
     async getCollectionObject(id: number): Promise<CollectionObject> {
         const response = await axios.get<CollectionObject>(BASE_URL.concat(`/objects/${id}`))
+
+        return response.data
+    }
+
+    async getAllCollectionObjects(): Promise<GetAllCollectionObjectsResponse> {
+        const response = await axios.get<GetAllCollectionObjectsResponse>(BASE_URL.concat(`/objects`))
 
         return response.data
     }
