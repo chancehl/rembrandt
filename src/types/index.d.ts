@@ -3,58 +3,62 @@ export type SearchCollectionObjectsResponse = {
     objectIDs: number[]
 }
 
-export type CollectionObject = {
-    objectID: number
-    isHighlight: boolean
-    accessionNumber: string
-    accessionYear: string
-    isPublicDomain: boolean
-    primaryImage: string
-    primaryImageSmall: string
-    additionalImages: string[]
-    constituents: {
-        constituentID: number
-        role: string
-        name: string
-        constituentULAN_URL: string
-        constituentWikidata_URL: string
-        gender: string
-    }[]
-    department: string
-    objectName: string
-    title: string
-    culture: string
-    period: string
-    dynasty: string
-    reign: string
-    portfolio: string
-    artistRole: string
-    artistPrefix: string
-    artistDisplayName: string
-    artistDisplayBio: string
-    artistSuffix: string
-    artistAlphaSort: string
-    artistNationality: string
-    artistBeginDate: string
-    artistEndDate: string
-    artistGender: string
-    artistWikidata_URL: string
-    artistULAN_URL: string
-    objectDate: string
-    objectBeginDate: number
-    objectEndDate: number
-    medium: string
-    dimensions: string
-    measurements: {
-        elementName: string
-        elementDescription: string | null
-        elementMeasurements: {
-            Height: number
-            Width: number
-        }
-    }[]
-    creditLine: string
-    geography: string
+export type Constituent = {
+    constituentID: number
+    role: string
+    name: string
+    constituentULAN_URL: string
+    constituentWikidata_URL: string
+    gender: string
 }
 
-export type GetCollectionObjectResponse = Partial<CollectionObject> & { objectID: number }
+export type ElementMeasurements = {
+    Height: number
+    Width: number
+}
+
+export type Element = {
+    elementName?: string | null
+    elementDescription?: string | null
+    elementMeasurements?: ElementMeasurements | null
+}
+
+export type CollectionObject = {
+    objectID: number
+    isHighlight?: boolean | null
+    accessionNumber?: string | null
+    accessionYear?: string | null
+    isPublicDomain?: boolean | null
+    primaryImage?: string | null
+    primaryImageSmall?: string | null
+    additionalImages?: string[] | null
+    constituents?: Constituent[] | null
+    department?: string | null
+    objectName?: string | null
+    title?: string | null
+    culture?: string | null
+    period?: string | null
+    dynasty?: string | null
+    reign?: string | null
+    portfolio?: string | null
+    artistRole?: string | null
+    artistPrefix?: string | null
+    artistDisplayName?: string | null
+    artistDisplayBio?: string | null
+    artistSuffix?: string | null
+    artistAlphaSort?: string | null
+    artistNationality?: string | null
+    artistBeginDate?: string | null
+    artistEndDate?: string | null
+    artistGender?: string | null
+    artistWikidata_URL?: string | null
+    artistULAN_URL?: string | null
+    objectDate?: string | null
+    objectBeginDate?: number | null
+    objectEndDate?: number | null
+    medium?: string | null
+    dimensions?: string | null
+    measurements?: Element[] | null
+    creditLine?: string | null
+    geography?: string | null
+}

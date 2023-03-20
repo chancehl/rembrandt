@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { GetCollectionObjectResponse, SearchCollectionObjectsResponse } from '../../types'
+import { CollectionObject, SearchCollectionObjectsResponse } from '../../types'
 import { pickRandomElement } from '../../utils'
 
 export const BASE_URL = 'https://collectionapi.metmuseum.org/public/collection/v1'
@@ -20,13 +20,13 @@ export class MetCollectionService {
         return response.data
     }
 
-    async getCollectionObject(id: number): Promise<GetCollectionObjectResponse> {
-        const response = await axios.get<GetCollectionObjectResponse>(BASE_URL.concat(`/objects/${id}`))
+    async getCollectionObject(id: number): Promise<CollectionObject> {
+        const response = await axios.get<CollectionObject>(BASE_URL.concat(`/objects/${id}`))
 
         return response.data
     }
 
-    async getRandomCollectionObject(query?: string): Promise<GetCollectionObjectResponse> {
+    async getRandomCollectionObject(query?: string): Promise<CollectionObject> {
         // get all collection object ids
         // prettier-ignore
         const objects = query == null 
