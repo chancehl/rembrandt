@@ -1,27 +1,30 @@
-import { CommandInteraction, SlashCommandChannelOption, ApplicationCommandType, ChannelType } from 'discord.js'
+import { CommandInteraction, SlashCommandChannelOption, ApplicationCommandType, TextChannel } from 'discord.js'
+
+import { DailyUpdateService } from '../services'
 
 import { Command } from './base.command'
 
 async function execute(interaction: CommandInteraction) {
-    const channel = interaction.options.get('channel')
+    const dailyUpdateService = new DailyUpdateService()
 
-    if (channel == null) {
+    const channelOption = interaction.options.get('channel')
+
+    if (channelOption == null) {
         await interaction.followUp({ content: 'I need to know which channel you want me to send updates to.' })
 
         return
     }
 
-    // channel.type is 0-15, these DO have overlap.
-    // TODO: remove the cast to unknown once this can be parsed into a ChannelType
-    const channelType = channel.type as unknown as ChannelType
+    const channel = channelOption.channel
 
-    if (channelType != ChannelType.GuildText) {
+    if (!(channel instanceof TextChannel)) {
         await interaction.followUp({ content: 'Sorry, I only support sending daily updates to **text channels** at the moment.' })
 
         return
     }
 
     // TODO: register subscribe callback
+    await dailyUpdateService.subscribe()
 
     // reply
     await interaction.followUp({ content: 'Testing' })

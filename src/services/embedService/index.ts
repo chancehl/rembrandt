@@ -2,43 +2,50 @@ import { EmbedBuilder } from 'discord.js'
 
 import { CollectionObject } from '../../types'
 
-type GenerateEmbedFromObjectsParams = {
-    object: Partial<CollectionObject>
-    builder?: EmbedBuilder
+type ConstructorParams = {
+    builder: EmbedBuilder
 }
 
-/** Generates a series of key-value pair objects based on the fields present in the response */
-export function generateEmbedFromObject({ object, builder }: GenerateEmbedFromObjectsParams) {
-    const embed = builder ?? new EmbedBuilder()
+export class EmbedService {
+    builder: EmbedBuilder
 
-    if (object.primaryImage) {
-        embed.setImage(object.primaryImage)
+    constructor({ builder }: ConstructorParams) {
+        this.builder = builder
     }
 
-    if (object.title) {
-        embed.setTitle(object.title)
-    }
+    /** Generates a series of key-value pair objects based on the fields present in the response */
+    create(object: Partial<CollectionObject>) {
+        const embed = this.builder
 
-    if (object.artistDisplayName) {
-        embed.setDescription(`by ${object.artistDisplayName}`)
-    }
+        if (object.primaryImage) {
+            embed.setImage(object.primaryImage)
+        }
 
-    if (object.objectDate) {
-        embed.addFields({ name: 'Date', value: object.objectDate })
-    }
+        if (object.title) {
+            embed.setTitle(object.title)
+        }
 
-    if (object.department) {
-        embed.addFields({ name: 'Department', value: object.department })
-    }
+        if (object.artistDisplayName) {
+            embed.setDescription(`by ${object.artistDisplayName}`)
+        }
 
-    if (object.dimensions) {
-        embed.addFields({ name: 'Dimensions', value: object.dimensions })
-    }
+        if (object.objectDate) {
+            embed.addFields({ name: 'Date', value: object.objectDate })
+        }
 
-    // note: this is purposefully duplicated here so that the download link goes at the bottom
-    if (object.primaryImage) {
-        embed.addFields({ name: 'Download link', value: object.primaryImage })
-    }
+        if (object.department) {
+            embed.addFields({ name: 'Department', value: object.department })
+        }
 
-    return embed
+        if (object.dimensions) {
+            embed.addFields({ name: 'Dimensions', value: object.dimensions })
+        }
+
+        // note: this is purposefully duplicated here so that the download link goes at the bottom
+        if (object.primaryImage) {
+            embed.addFields({ name: 'Download link', value: object.primaryImage })
+        }
+
+        return embed
+    }
 }

@@ -1,18 +1,19 @@
-import { CommandInteraction, Client, ApplicationCommandType, SlashCommandStringOption, CommandInteractionOption, CacheType } from 'discord.js'
+import { CommandInteraction, Client, ApplicationCommandType, SlashCommandStringOption, CommandInteractionOption, CacheType, EmbedBuilder } from 'discord.js'
 
 import { Command } from './base.command'
 
-import { getRandomCollectionObject, generateEmbedFromObject } from '../services'
+import { MetCollectionService, EmbedService } from '../services'
 
 async function execute(interaction: CommandInteraction) {
+    const metCollectionService = new MetCollectionService()
+    const embedService = new EmbedService({ builder: new EmbedBuilder() })
+
     try {
         const query = interaction.options.get('query')
 
-        const object = await getRandomCollectionObject(query?.value as string)
+        const object = await metCollectionService.getRandomCollectionObject(query?.value as string)
 
-        const embed = generateEmbedFromObject({ object })
-
-        await interaction.followUp({ ephemeral: true, embeds: [embed] })
+        await interaction.followUp({ ephemeral: true, embeds: [embedService.create(object)] })
     } catch (err) {
         await interaction.followUp({ ephemeral: true, content: 'Something went wrong. Sorry!' })
     }
