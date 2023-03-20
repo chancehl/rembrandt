@@ -19,9 +19,9 @@ const channelOption = new SlashCommandChannelOption()
     .setDescription("the channel to send your daily updates to")
     .setRequired(true)
 
-export const DailyCommand: Command = {
-    name: 'daily',
-    description: 'use this command to configure daily updates',
+export const SubscribeCommand: Command = {
+    name: 'subscribe',
+    description: 'use this command to subscribe to daily updates',
     options: [channelOption],
     type: ApplicationCommandType.ChatInput,
     run: execute,
