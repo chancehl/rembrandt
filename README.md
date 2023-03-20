@@ -66,13 +66,6 @@ This bot is built with...
 | Axios                                 | Network requests                                                                 |
 | MSW                                   | Mocking network requests                                                         |
 
-## Roadmap
-
-| Feature                       | Status      | Notes                                                 |
-| ----------------------------- | ----------- | ----------------------------------------------------- |
-| Bot hosted                    | In progress | N/A                                                   |
-| Daily artwork displays (push) | Not started | I want to complete the hosting of the bot before this |
-
 ## Notes
 
 ### Commit messages
