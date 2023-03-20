@@ -64,6 +64,7 @@ This bot is built with...
 | Prettier                              | For code formatting                                                              |
 | ESLint                                | Linting                                                                          |
 | Axios                                 | Network requests                                                                 |
+| MSW                                   | Mocking network requests                                                         |
 
 ## Roadmap
 
