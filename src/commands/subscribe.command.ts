@@ -1,13 +1,10 @@
 import { CommandInteraction, SlashCommandChannelOption, ApplicationCommandType, TextChannel } from 'discord.js'
-import dayjs from 'dayjs'
-import plugin from 'dayjs/plugin/localizedFormat'
 
 import { DailyUpdateService } from '../services'
 import { botClient } from '../client'
+import { formatter as dateFormatter } from '../utils'
 
 import { Command } from './base.command'
-
-dayjs.extend(plugin) // TODO: find a better place for this
 
 async function execute(interaction: CommandInteraction) {
     const channelOption = interaction.options.get('channel')
@@ -30,7 +27,7 @@ async function execute(interaction: CommandInteraction) {
 
     // TODO: register subscribe callback
     const next = await dailyUpdateService.subscribe(channel.id)
-    const formattedDate = dayjs(next).format('LLL')
+    const formattedDate = dateFormatter(next).format('LLL')
 
     // reply (validate user's subscription)
     await interaction.followUp({
