@@ -1,12 +1,15 @@
 import { CommandInteraction, SlashCommandChannelOption, ApplicationCommandType, TextChannel } from 'discord.js'
+import dayjs from 'dayjs'
+import plugin from 'dayjs/plugin/localizedFormat'
 
 import { DailyUpdateService } from '../services'
+import { botClient } from '../client'
 
 import { Command } from './base.command'
 
-async function execute(interaction: CommandInteraction) {
-    const dailyUpdateService = new DailyUpdateService()
+dayjs.extend(plugin) // TODO: find a better place for this
 
+async function execute(interaction: CommandInteraction) {
     const channelOption = interaction.options.get('channel')
 
     if (channelOption == null) {
@@ -23,11 +26,16 @@ async function execute(interaction: CommandInteraction) {
         return
     }
 
-    // TODO: register subscribe callback
-    await dailyUpdateService.subscribe()
+    const dailyUpdateService = new DailyUpdateService({ client: botClient })
 
-    // reply
-    await interaction.followUp({ content: 'Testing' })
+    // TODO: register subscribe callback
+    const next = await dailyUpdateService.subscribe(channel.id)
+    const formattedDate = dayjs(next).format('LLL')
+
+    // reply (validate user's subscription)
+    await interaction.followUp({
+        content: `Done! I'll send updates to **#${channel.name}** every 24 hours. You'll get your next one at **${formattedDate}**. Feel free to use the /art command in the meantime.`,
+    })
 }
 
 // prettier-ignore

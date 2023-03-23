@@ -1,23 +1,21 @@
 import dotenv from 'dotenv'
-import { Client as BotClient, Events, GatewayIntentBits } from 'discord.js'
+import { Events } from 'discord.js'
 
+import { botClient } from './client'
 import { handleInteraction, onClientReady } from './handlers'
 
 // init .env vars
 dotenv.config()
 
 if (process.env.DISCORD_BOT_TOKEN) {
-    // create a new client instance
-    const bot = new BotClient({ intents: [GatewayIntentBits.Guilds] })
-
     // register global setup on ready
-    bot.once(Events.ClientReady, onClientReady)
+    botClient.once(Events.ClientReady, onClientReady)
 
     // register interactions
-    bot.on('interactionCreate', handleInteraction)
+    botClient.on('interactionCreate', handleInteraction)
 
     // log in
-    bot.login(process.env.DISCORD_BOT_TOKEN)
+    botClient.login(process.env.DISCORD_BOT_TOKEN)
 } else {
     console.error('Missing DISCORD_BOT_TOKEN from .env file.')
 
