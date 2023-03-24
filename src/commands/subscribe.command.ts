@@ -1,6 +1,6 @@
 import { CommandInteraction, SlashCommandChannelOption, ApplicationCommandType, TextChannel } from 'discord.js'
 
-import { DailyUpdateService } from '../services'
+import { SubscriptionService } from '../services'
 import { botClient } from '../client'
 import { formatter as dateFormatter } from '../utils'
 
@@ -23,10 +23,11 @@ async function execute(interaction: CommandInteraction) {
         return
     }
 
-    const dailyUpdateService = new DailyUpdateService({ client: botClient })
+    const subscriptionService = new SubscriptionService({ client: botClient })
 
     // TODO: register subscribe callback
-    const next = await dailyUpdateService.subscribe(channel.id)
+    const next = await subscriptionService.subscribe(channel)
+
     const formattedDate = dateFormatter(next).format('LLL')
 
     // reply (validate user's subscription)
