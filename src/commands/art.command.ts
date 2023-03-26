@@ -16,7 +16,11 @@ async function execute(interaction: CommandInteraction) {
 
         const summary = await summaryService.generateSummary(object)
 
-        await interaction.followUp({ ephemeral: true, embeds: [embedService.create(object)], content: summary })
+        await interaction.followUp({
+            ephemeral: true,
+            embeds: [embedService.create(object)],
+            content: summary,
+        })
     } catch (err) {
         await interaction.followUp({ ephemeral: true, content: 'Something went wrong. Sorry!' })
     }
