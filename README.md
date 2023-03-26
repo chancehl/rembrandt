@@ -66,6 +66,7 @@ This bot is built with...
 | ESLint                                | Linting                                                                          |
 | Axios                                 | Network requests                                                                 |
 | MSW                                   | Mocking network requests                                                         |
+| Prisma.io                             | Typescript + MongoDB ORM                                                         |
 
 ## Notes
 
