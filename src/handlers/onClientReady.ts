@@ -1,6 +1,6 @@
 import { Client } from 'discord.js'
 
-import { registerCommands } from './registerCommands'
+import { commands } from '../commands'
 import { DbManager } from '../db'
 
 /**
@@ -8,7 +8,7 @@ import { DbManager } from '../db'
  */
 export async function onClientReady(bot: Client<true>) {
     // register commands
-    await registerCommands(bot)
+    bot.application.commands.set(commands)
 
     // connect to db
     await DbManager.connect()
