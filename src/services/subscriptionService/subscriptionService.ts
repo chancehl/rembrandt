@@ -45,6 +45,7 @@ export class SubscriptionService {
         const existing = await this.dbClient.subscription.findFirst({
             where: {
                 guild: guildId,
+                active: true,
             },
         })
 

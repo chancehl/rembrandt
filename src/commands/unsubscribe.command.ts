@@ -1,7 +1,8 @@
 import { CommandInteraction, ApplicationCommandType } from 'discord.js'
 
 import { SubscriptionDoesNotExistError, SubscriptionService } from '../services'
-import { botClient } from '../clients/botClient'
+import { botClient } from '../clients'
+import { logger } from '../logger'
 
 import { Command } from './base.command'
 
@@ -18,7 +19,9 @@ async function execute(interaction: CommandInteraction) {
         }
     } catch (error) {
         if (error instanceof SubscriptionDoesNotExistError) {
-            await interaction.followUp('Your discord does not have an existing subscription. Did you want to create one instead with the `/subscribe` command?')
+            logger.error(`Guild ${interaction.guildId} tried to cancel inactive or non-existing subscription`)
+
+            await interaction.followUp('Your discord does not have an active subscription. Did you want to create one instead with the `/subscribe` command?')
         }
     }
 }
