@@ -23,17 +23,18 @@ async function execute(interaction: CommandInteraction) {
         return
     }
 
-    const subscriptionService = new SubscriptionService({ client: botClient })
+    try {
+        const subscriptionService = new SubscriptionService({ client: botClient })
 
-    // TODO: register subscribe callback
-    const next = await subscriptionService.subscribe(channel)
+        const next = await subscriptionService.subscribe(channel)
 
-    const formattedDate = dateFormatter(next).format('LLL')
+        const formattedDate = dateFormatter(next).format('LLL')
 
-    // reply (validate user's subscription)
-    await interaction.followUp({
-        content: `Done! I'll send updates to **#${channel.name}** every 24 hours. You'll get your next one at **${formattedDate}**. Feel free to use the /art command in the meantime.`,
-    })
+        // reply (validate user's subscription)
+        await interaction.followUp({
+            content: `Done! I'll send updates to **#${channel.name}** every 24 hours. You'll get your next one at **${formattedDate}**. Feel free to use the /art command in the meantime.`,
+        })
+    } catch (err) {}
 }
 
 // prettier-ignore

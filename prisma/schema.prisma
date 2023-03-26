@@ -10,10 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Susbcription {
+model Subscription {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   guild     String  @unique
   active    Boolean
   createdOn String
-  next      String
+  next      String?
 }
