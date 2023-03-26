@@ -12,7 +12,7 @@ if (process.env.DISCORD_BOT_TOKEN) {
     botClient.once(Events.ClientReady, onClientReady)
 
     // register interactions
-    botClient.on('interactionCreate', handleInteraction)
+    botClient.on(Events.InteractionCreate, handleInteraction)
 
     // log in
     botClient.login(process.env.DISCORD_BOT_TOKEN)
