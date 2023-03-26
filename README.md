@@ -46,10 +46,11 @@ You can run `docker logs rembrandt-bot-1 -f` to see the logs for the bot.
 
 ## Commands
 
-| Command    | Options            | Notes                                                                |
-| ---------- | ------------------ | -------------------------------------------------------------------- |
-| /art       | query (optional)   | Artwork will be picked at random unless a query is provided          |
-| /subscribe | channel (required) | Must be a text channel. This signs your discord up for daily updates |
+| Command      | Options            | Notes                                                                |
+| ------------ | ------------------ | -------------------------------------------------------------------- |
+| /art         | query (optional)   | Artwork will be picked at random unless a query is provided          |
+| /subscribe   | channel (required) | Must be a text channel. This signs your discord up for daily updates |
+| /unsubscribe | none               | Unsubscribes from daily updates                                      |
 
 ## Technologies
 
