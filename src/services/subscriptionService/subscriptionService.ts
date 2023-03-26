@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { Client as BotClient, TextChannel } from 'discord.js'
 
+import { PUSH_INTERVAL } from '../../constants'
 import { EmbedService } from '../embedService'
 import { MetCollectionService } from '../metCollectionService'
 
@@ -23,7 +24,7 @@ export class SubscriptionService {
     }
 
     async subscribe(channel: TextChannel) {
-        const next = new Date(Date.now() + INTERVAL).toISOString()
+        const next = Date.now() + PUSH_INTERVAL
 
         await this.dbClient.subscription.upsert({
             create: {
@@ -31,16 +32,21 @@ export class SubscriptionService {
                 active: true,
                 createdOn: new Date().toISOString(),
                 guild: channel.guild.id,
+                channel: channel.id,
             },
             where: { guild: channel.guild.id },
-            update: { active: true },
+            update: { active: true, next },
         })
 
         return next
     }
 
     async unsubscribe(guildId: string) {
-        const existing = await this.dbClient.subscription.findFirst({ where: { guild: guildId } })
+        const existing = await this.dbClient.subscription.findFirst({
+            where: {
+                guild: guildId,
+            },
+        })
 
         if (existing) {
             // soft delete
