@@ -1,7 +1,7 @@
 import { CommandInteraction, SlashCommandChannelOption, ApplicationCommandType, TextChannel } from 'discord.js'
 
 import { SubscriptionService } from '../services'
-import { botClient } from '../client'
+import { botClient } from '../clients/botClient'
 import { formatter as dateFormatter } from '../utils'
 
 import { Command } from './base.command'

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { Events } from 'discord.js'
 
-import { botClient } from './client'
+import { botClient } from './clients'
 import { handleInteraction, onClientReady } from './handlers'
 
 // init .env vars
