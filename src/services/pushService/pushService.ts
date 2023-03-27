@@ -18,8 +18,6 @@ export class PushService {
     }
 
     async scheduleUpdates() {
-        logger.info(`Scheduling updates. Next execution at ${new Date(Date.now() + HOUR_INTERVAL).toISOString()}.`)
-
         cron.schedule(PUSH_SERVICE_CRON_JOB, async () => {
             logger.info(`Sending updates. Next execution at ${new Date(Date.now() + HOUR_INTERVAL).toISOString()}.`)
 
