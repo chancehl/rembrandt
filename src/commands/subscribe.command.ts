@@ -3,10 +3,13 @@ import { CommandInteraction, SlashCommandChannelOption, ApplicationCommandType, 
 import { SubscriptionService } from '../services'
 import { botClient } from '../clients'
 import { formatter as dateFormatter } from '../utils'
+import { logger } from '../logger'
 
 import { Command } from './base.command'
 
 async function execute(interaction: CommandInteraction) {
+    logger.info(`User ${interaction.user.id} is registering discord server ${interaction.guildId} for daily updates`)
+
     const channelOption = interaction.options.get('channel')
 
     if (channelOption == null) {
@@ -34,7 +37,11 @@ async function execute(interaction: CommandInteraction) {
         await interaction.followUp({
             content: `Done! I'll send updates to **#${channel.name}** every 24 hours. You'll get your next one at **${formattedDate}**. Feel free to use the /art command in the meantime.`,
         })
-    } catch (err) {}
+    } catch (err) {
+        logger.error(`Encountered the following error while subscribing to daily updates: ${(err as unknown as Error).message}`)
+
+        await interaction.followUp(`Sorry, something went wrong.`)
+    }
 }
 
 // prettier-ignore
