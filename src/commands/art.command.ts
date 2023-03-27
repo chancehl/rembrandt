@@ -3,6 +3,7 @@ import { CommandInteraction, ApplicationCommandType, SlashCommandStringOption, E
 import { Command } from './base.command'
 
 import { MetCollectionService, EmbedService, SummaryService } from '../services'
+import { logger } from '../logger'
 
 async function execute(interaction: CommandInteraction) {
     const metCollectionService = new MetCollectionService()
@@ -11,6 +12,8 @@ async function execute(interaction: CommandInteraction) {
 
     try {
         const query = interaction.options.get('query')
+
+        logger.info(`User ${interaction.user.id} is executing the /art command with params: ${query == null ? 'none' : `query=${query.value}`}`)
 
         const object = await metCollectionService.getRandomCollectionObject(query?.value as string)
 

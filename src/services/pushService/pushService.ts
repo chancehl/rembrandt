@@ -3,7 +3,7 @@ import { EmbedBuilder, TextChannel } from 'discord.js'
 import cron from 'node-cron'
 
 import { botClient } from '../../clients'
-import { HOUR_INTERVAL } from '../../constants'
+import { DAY_INTERVAL, HOUR_INTERVAL } from '../../constants'
 import { EmbedService } from '../embedService'
 import { MetCollectionService } from '../metCollectionService'
 
@@ -52,7 +52,7 @@ export class PushService {
                     await textChannel.send({ embeds: [embed] })
 
                     // update element in db
-                    const next = Date.now() + PUSH_INTERVAL
+                    const next = Date.now() + DAY_INTERVAL
 
                     await this.dbClient.subscription.update({
                         data: {
