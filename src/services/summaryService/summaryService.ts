@@ -5,6 +5,8 @@ import { Configuration, OpenAIApi } from 'openai'
 import { CollectionObject } from '../../types'
 
 export class SummaryService {
+    private createObjectSummaryPrompt = `Pretend you are a discord bot whose job is to teach a discord server about random pieces of art from the Metropolitan Museum of Art collection. Write a short but informational overview about this piece of art: PIECE_IDENTIFIER.`
+
     constructor() {}
 
     async generateSummary(object: CollectionObject) {
@@ -28,7 +30,7 @@ export class SummaryService {
     }
 
     private generatePrompt(object: CollectionObject) {
-        const template = fs.readFileSync(path.join(__dirname, './prompt.txt'), { encoding: 'utf-8' })
+        const template = this.createObjectSummaryPrompt
 
         const tokenizedTemplate = template.replace('PIECE_IDENTIFIER', `${object.title}, ${object.medium}, ${object.department}`)
 

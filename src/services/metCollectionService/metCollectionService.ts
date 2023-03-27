@@ -2,11 +2,16 @@ import axios from 'axios'
 
 import { CollectionObject, GetAllCollectionObjectsResponse, SearchCollectionObjectsResponse } from '../../types'
 import { pickRandomElement } from '../../utils'
+import { logger } from '../../logger'
 
 export const BASE_URL = 'https://collectionapi.metmuseum.org/public/collection/v1'
 
 export class MetCollectionService {
-    constructor() {}
+    private missingImageCache // TODO: replace this with redis
+
+    constructor(missingImageCache?: number[]) {
+        this.missingImageCache = missingImageCache ?? []
+    }
 
     async getAllCollectionObjectsWithImages(): Promise<SearchCollectionObjectsResponse> {
         const response = await axios.get<SearchCollectionObjectsResponse>(BASE_URL.concat('/search?q=.&hasImages=true'))
@@ -39,11 +44,25 @@ export class MetCollectionService {
             ? await this.getAllCollectionObjectsWithImages() 
             : await this.getCollectionObjectsByQuery(query)
 
-        // pick a random element
-        const objectId = pickRandomElement(objects.objectIDs ?? [])
-
         // get a specific object
-        const object = await this.getCollectionObject(objectId)
+        const object = this.pickAndFetchRandomObject(objects.objectIDs ?? [])
+
+        return object
+    }
+
+    private async pickAndFetchRandomObject(objectIds: number[]): Promise<CollectionObject> {
+        // filter out things we know are missing images
+        const validObjectIds = objectIds.filter((id) => !this.missingImageCache.includes(id))
+
+        let object = await this.getCollectionObject(pickRandomElement(validObjectIds))
+
+        while (object.primaryImage == null || object.primaryImage.length === 0) {
+            logger.warn(`Object ${object.objectID} had a missing primary image, retrying`)
+
+            this.missingImageCache.push(object.objectID)
+
+            object = await this.getCollectionObject(pickRandomElement(objectIds))
+        }
 
         return object
     }

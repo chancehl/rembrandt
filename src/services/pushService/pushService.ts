@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Subscription } from '@prisma/client'
 import { EmbedBuilder, TextChannel } from 'discord.js'
 import cron from 'node-cron'
 
@@ -41,12 +41,12 @@ export class PushService {
             },
         })
 
-        logger.info(`Found ${updates.length} guilds scheduled to receive updates: ${updates.length ? updates.map((upd) => upd.guild).join(', ') : 'N/A'}`)
+        logger.info(`Found ${updates.length} guilds scheduled to receive updates: ${updates.length ? updates.map((update: Subscription) => update.guild).join(', ') : 'N/A'}`)
 
         const object = await metCollectionService.getRandomCollectionObject()
         const embed = embedService.create(object)
 
-        const sendAndUpdatePromises = updates.map((update) => {
+        const sendAndUpdatePromises = updates.map((update: Subscription) => {
             return new Promise(async (resolve, reject) => {
                 logger.info(`Sending daily update to guild ${update.guild} (channel = ${update.channel})`)
 
