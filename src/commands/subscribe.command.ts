@@ -1,4 +1,4 @@
-import { CommandInteraction, SlashCommandChannelOption, ApplicationCommandType, TextChannel } from 'discord.js'
+import { CommandInteraction, SlashCommandChannelOption, ApplicationCommandType, TextChannel, GuildMember } from 'discord.js'
 
 import { SubscriptionService } from '../services'
 import { botClient } from '../clients'
@@ -9,6 +9,24 @@ import { Command } from './base.command'
 
 async function execute(interaction: CommandInteraction) {
     logger.info(`User ${interaction.user.id} is registering discord server ${interaction.guildId} for daily updates`)
+
+    if (!interaction.guild) {
+        logger.warn(`User ${interaction.user.id} tried to subscribe via DM.`)
+
+        await interaction.followUp(`Sorry, I only support sending daily updates to servers (not in DMs) at the moment.`)
+
+        return
+    }
+
+    const isAdmin = (interaction.member as GuildMember).permissions.has('Administrator')
+
+    if (!isAdmin) {
+        logger.warn(`User ${interaction.user.id} tried to subscribe server ${interaction.guild.id} up for daily updates, but they are not an admin`)
+
+        await interaction.followUp(`Sorry, only server Administrators can run this command.`)
+
+        return
+    }
 
     const channelOption = interaction.options.get('channel')
 
@@ -21,6 +39,8 @@ async function execute(interaction: CommandInteraction) {
     const channel = channelOption.channel
 
     if (!(channel instanceof TextChannel)) {
+        logger.warn(`User ${interaction.user.id} tried to subscribe in a voice channel.`)
+
         await interaction.followUp({ content: 'Sorry, I only support sending daily updates to **text channels** at the moment.' })
 
         return
