@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { Client as BotClient, TextChannel } from 'discord.js'
+import dayjs from 'dayjs'
 
-import { DAY_INTERVAL, HOUR_INTERVAL } from '../../constants'
 import { EmbedService } from '../embedService'
 import { MetCollectionService } from '../metCollectionService'
 
@@ -14,8 +14,6 @@ type ConstructorParams = {
     dbClient?: PrismaClient
 }
 
-export const INTERVAL = 1000 * 60 * 60 * 24
-
 export class SubscriptionService {
     private dbClient: PrismaClient
 
@@ -24,7 +22,9 @@ export class SubscriptionService {
     }
 
     async subscribe(channel: TextChannel) {
-        const next = Date.now() + HOUR_INTERVAL // temporarily set this to 1hr for testing
+        const now = dayjs()
+
+        const next = now.add(1, 'hour').unix()
 
         await this.dbClient.subscription.upsert({
             create: {

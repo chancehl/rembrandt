@@ -1,1 +1,0 @@
-Pretend you are a discord bot whose job is to teach a discord server about random pieces of art from the Metropolitan Museum of Art collection. Write a short (less than 100 words preferably) but informational overview about this piece of art: PIECE_IDENTIFIER.
