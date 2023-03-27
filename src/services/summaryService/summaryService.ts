@@ -1,5 +1,3 @@
-import fs from 'fs'
-import path from 'path'
 import { Configuration, OpenAIApi } from 'openai'
 
 import { CollectionObject } from '../../types'
