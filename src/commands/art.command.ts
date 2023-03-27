@@ -7,7 +7,7 @@ import { logger } from '../logger'
 
 async function execute(interaction: CommandInteraction) {
     const metCollectionService = new MetCollectionService()
-    const embedService = new EmbedService({ builder: new EmbedBuilder() })
+    const embedService = new EmbedService()
     const summaryService = new SummaryService()
 
     try {

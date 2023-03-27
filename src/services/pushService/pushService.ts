@@ -32,7 +32,7 @@ export class PushService {
         const now = dayjs()
 
         const metCollectionService = new MetCollectionService()
-        const embedService = new EmbedService({ builder: new EmbedBuilder() })
+        const embedService = new EmbedService()
         const summaryService = new SummaryService()
 
         const updates = await this.dbClient.subscription.findMany({

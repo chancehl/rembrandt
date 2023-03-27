@@ -2,15 +2,15 @@ import { EmbedBuilder } from 'discord.js'
 
 import { CollectionObject } from '../../types'
 
-type ConstructorParams = {
+type ConstructorArgs = {
     builder: EmbedBuilder
 }
 
 export class EmbedService {
     builder: EmbedBuilder
 
-    constructor({ builder }: ConstructorParams) {
-        this.builder = builder
+    constructor(args?: ConstructorArgs) {
+        this.builder = args?.builder ?? new EmbedBuilder()
     }
 
     /** Generates a series of key-value pair objects based on the fields present in the response */
