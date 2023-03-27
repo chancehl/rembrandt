@@ -3,7 +3,7 @@ import { EmbedBuilder, TextChannel } from 'discord.js'
 import cron from 'node-cron'
 
 import { botClient } from '../../clients'
-import { PUSH_INTERVAL } from '../../constants'
+import { HOUR_INTERVAL } from '../../constants'
 import { EmbedService } from '../embedService'
 import { MetCollectionService } from '../metCollectionService'
 
@@ -31,7 +31,7 @@ export class PushService {
                 active: true,
                 next: {
                     gt: Date.now(),
-                    lt: Date.now() + PUSH_INTERVAL,
+                    lt: Date.now() + HOUR_INTERVAL,
                 },
             },
         })
