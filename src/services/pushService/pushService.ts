@@ -1,5 +1,5 @@
 import { PrismaClient, Subscription } from '@prisma/client'
-import { EmbedBuilder, TextChannel } from 'discord.js'
+import { TextChannel } from 'discord.js'
 import cron from 'node-cron'
 import dayjs from 'dayjs'
 
@@ -69,7 +69,7 @@ export class PushService {
                     await this.dbClient.subscription.update({
                         data: {
                             lastSent: now.unix(),
-                            next: now.add(1, 'day').unix(),
+                            next: now.add(1, 'hour').unix(),
                         },
                         where: {
                             channel: update.channel,
