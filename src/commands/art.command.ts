@@ -17,6 +17,8 @@ async function execute(interaction: CommandInteraction) {
 
         const object = await metCollectionService.getRandomCollectionObject(query?.value as string)
 
+        logger.info(`Retrieved object ${object.objectID} from MET collection`)
+
         const summary = await summaryService.generateSummary(object)
 
         await interaction.followUp({
@@ -25,6 +27,8 @@ async function execute(interaction: CommandInteraction) {
             content: summary,
         })
     } catch (err) {
+        logger.error(`Encountered error while executing /art command: ${(err as unknown as Error).message}`)
+
         await interaction.followUp({ ephemeral: true, content: 'Something went wrong. Sorry!' })
     }
 }
