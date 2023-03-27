@@ -6,6 +6,7 @@ import { botClient } from '../../clients'
 import { DAY_INTERVAL, HOUR_INTERVAL } from '../../constants'
 import { EmbedService } from '../embedService'
 import { MetCollectionService } from '../metCollectionService'
+import { logger } from '../../logger'
 
 export const PUSH_SERVICE_CRON_JOB = '0 * * * *'
 
@@ -17,7 +18,11 @@ export class PushService {
     }
 
     async scheduleUpdates() {
+        logger.info(`[PushService] Scheduling updates. Next execution at ${new Date(Date.now() + HOUR_INTERVAL).toISOString()}.`)
+
         cron.schedule(PUSH_SERVICE_CRON_JOB, async () => {
+            logger.info(`[PushService] Sending updates. Next execution at ${new Date(Date.now() + HOUR_INTERVAL).toISOString()}.`)
+
             await this.sendUpdates()
         })
     }
@@ -36,11 +41,15 @@ export class PushService {
             },
         })
 
+        logger.info(`[PushService] Found ${updates.length} guilds scheduled to receive updates: ${updates.map((upd) => upd.guild).join(', ')}`)
+
         const object = await metCollectionService.getRandomCollectionObject()
         const embed = embedService.create(object)
 
         const sendAndUpdatePromises = updates.map((update) => {
             return new Promise(async (resolve, reject) => {
+                logger.info(`[PushService] Sending daily update to guild ${update.guild} (channel = ${update.channel})`)
+
                 const channel = await botClient.channels.fetch(update.channel)
 
                 if (channel == null) {
