@@ -4,18 +4,25 @@ import cron from 'node-cron'
 import dayjs from 'dayjs'
 
 import { botClient } from '../../clients'
+import { logger } from '../../logger'
+import { InjectableServices } from '../services'
 import { EmbedService } from '../embedService'
 import { MetCollectionService } from '../metCollectionService'
-import { logger } from '../../logger'
 import { SummaryService } from '../summaryService'
 
 export const PUSH_SERVICE_CRON_JOB = '0 * * * *'
 
 export class PushService {
     private dbClient: PrismaClient
+    private metCollectionService: MetCollectionService
+    private embedService: EmbedService
+    private summaryService: SummaryService
 
-    constructor() {
-        this.dbClient = new PrismaClient()
+    constructor(args?: Partial<Omit<InjectableServices, 'PushService'>>) {
+        this.dbClient = args?.dbClient ?? new PrismaClient()
+        this.metCollectionService = args?.metCollectionService ?? new MetCollectionService()
+        this.embedService = args?.embedService ?? new EmbedService()
+        this.summaryService = args?.summaryService ?? new SummaryService()
     }
 
     async scheduleUpdates() {
@@ -31,10 +38,6 @@ export class PushService {
     async sendUpdates() {
         const now = dayjs()
 
-        const metCollectionService = new MetCollectionService()
-        const embedService = new EmbedService()
-        const summaryService = new SummaryService()
-
         const updates = await this.dbClient.subscription.findMany({
             where: {
                 active: true,
@@ -48,9 +51,9 @@ export class PushService {
         logger.info(`Found ${updates.length} guilds scheduled to receive updates: ${updates.length ? updates.map((update: Subscription) => update.guild).join(', ') : 'N/A'}`)
 
         if (updates.length > 0) {
-            const object = await metCollectionService.getRandomCollectionObject()
-            const summary = await summaryService.generateSummary(object)
-            const embed = embedService.create(object)
+            const object = await this.metCollectionService.getRandomCollectionObject()
+            const summary = await this.summaryService.generateSummary(object)
+            const embed = this.embedService.create(object)
 
             const sendAndUpdatePromises = updates.map((update: Subscription) => {
                 return new Promise(async (resolve, reject) => {

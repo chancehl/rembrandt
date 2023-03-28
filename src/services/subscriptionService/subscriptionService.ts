@@ -1,24 +1,15 @@
 import { PrismaClient } from '@prisma/client'
-import { Client as BotClient, TextChannel } from 'discord.js'
+import { TextChannel } from 'discord.js'
 import dayjs from 'dayjs'
 
-import { EmbedService } from '../embedService'
-import { MetCollectionService } from '../metCollectionService'
-
 import { SubscriptionDoesNotExistError } from './error'
-
-type ConstructorParams = {
-    client: BotClient
-    metCollectionService?: MetCollectionService
-    embedService?: EmbedService
-    dbClient?: PrismaClient
-}
+import { InjectableServices } from '../services'
 
 export class SubscriptionService {
     private dbClient: PrismaClient
 
-    constructor({ dbClient }: ConstructorParams) {
-        this.dbClient = dbClient ?? new PrismaClient()
+    constructor(args?: Partial<Omit<InjectableServices, 'SubscriptionService'>>) {
+        this.dbClient = args?.dbClient ?? new PrismaClient()
     }
 
     async subscribe(channel: TextChannel) {
