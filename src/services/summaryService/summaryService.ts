@@ -13,7 +13,7 @@ export class SummaryService {
         apiKey: process.env.OPEN_AI_API_KEY,
     })
 
-    private createObjectSummaryPrompt = `Write a summary (like you'd seed on a placard at a museum) for the Metropolitan Museum of Art collection piece: PIECE_IDENTIFIER.`
+    private createObjectSummaryPrompt = `Write a summary (like you'd seed on a placard at an art museum) for the Metropolitan Museum of Art collection piece: PIECE_IDENTIFIER.`
 
     constructor(args?: ConstructorArgs) {
         if (args?.apiConfiguration) {
