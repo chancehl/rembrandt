@@ -25,8 +25,13 @@ export class SubscriptionService {
                 guild: channel.guild.id,
                 channel: channel.id,
             },
-            where: { guild: channel.guild.id },
-            update: { active: true, next },
+            where: {
+                guild: channel.guild.id,
+            },
+            update: {
+                active: true,
+                next,
+            },
         })
 
         return next
@@ -43,8 +48,13 @@ export class SubscriptionService {
         if (existing) {
             // soft delete
             await this.dbClient.subscription.update({
-                data: { active: false, next: undefined },
-                where: { guild: guildId },
+                data: {
+                    active: false,
+                    next: undefined,
+                },
+                where: {
+                    guild: guildId,
+                },
             })
 
             return existing
