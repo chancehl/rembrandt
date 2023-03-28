@@ -47,41 +47,43 @@ export class PushService {
 
         logger.info(`Found ${updates.length} guilds scheduled to receive updates: ${updates.length ? updates.map((update: Subscription) => update.guild).join(', ') : 'N/A'}`)
 
-        const object = await metCollectionService.getRandomCollectionObject()
-        const summary = await summaryService.generateSummary(object)
-        const embed = embedService.create(object)
+        if (updates.length > 0) {
+            const object = await metCollectionService.getRandomCollectionObject()
+            const summary = await summaryService.generateSummary(object)
+            const embed = embedService.create(object)
 
-        const sendAndUpdatePromises = updates.map((update: Subscription) => {
-            return new Promise(async (resolve, reject) => {
-                logger.info(`Sending daily update to guild ${update.guild} (channel = ${update.channel})`)
+            const sendAndUpdatePromises = updates.map((update: Subscription) => {
+                return new Promise(async (resolve, reject) => {
+                    logger.info(`Sending daily update to guild ${update.guild} (channel = ${update.channel})`)
 
-                const channel = await botClient.channels.fetch(update.channel)
+                    const channel = await botClient.channels.fetch(update.channel)
 
-                if (channel == null) {
-                    reject('Missing channel')
-                } else {
-                    const textChannel = channel as TextChannel
+                    if (channel == null) {
+                        reject('Missing channel')
+                    } else {
+                        const textChannel = channel as TextChannel
 
-                    // send update
-                    await textChannel.send({ embeds: [embed], content: summary })
+                        // send update
+                        await textChannel.send({ embeds: [embed], content: summary })
 
-                    // update element in db
-                    await this.dbClient.subscription.update({
-                        data: {
-                            lastSent: now.unix(),
-                            next: now.add(1, 'hour').unix(),
-                        },
-                        where: {
-                            channel: update.channel,
-                        },
-                    })
+                        // update element in db
+                        await this.dbClient.subscription.update({
+                            data: {
+                                lastSent: now.unix(),
+                                next: now.add(1, 'hour').unix(),
+                            },
+                            where: {
+                                channel: update.channel,
+                            },
+                        })
 
-                    // resolve
-                    resolve(update.next)
-                }
+                        // resolve
+                        resolve(update.next)
+                    }
+                })
             })
-        })
 
-        await Promise.all(sendAndUpdatePromises)
+            await Promise.all(sendAndUpdatePromises)
+        }
     }
 }
