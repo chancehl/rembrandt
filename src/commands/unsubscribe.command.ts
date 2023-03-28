@@ -1,7 +1,6 @@
 import { CommandInteraction, ApplicationCommandType } from 'discord.js'
 
 import { SubscriptionDoesNotExistError, SubscriptionService } from '../services'
-import { botClient } from '../clients'
 import { logger } from '../logger'
 
 import { Command } from './base.command'
