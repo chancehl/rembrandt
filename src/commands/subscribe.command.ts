@@ -2,7 +2,6 @@ import { CommandInteraction, SlashCommandChannelOption, ApplicationCommandType, 
 import dayjs from 'dayjs'
 
 import { SubscriptionService } from '../services'
-import { botClient } from '../clients'
 import { logger } from '../logger'
 
 import { Command } from './base.command'
@@ -47,7 +46,7 @@ async function execute(interaction: CommandInteraction) {
     }
 
     try {
-        const subscriptionService = new SubscriptionService({ client: botClient })
+        const subscriptionService = new SubscriptionService()
 
         const next = await subscriptionService.subscribe(channel)
 
