@@ -1,8 +1,8 @@
 import { CommandInteraction, SlashCommandChannelOption, ApplicationCommandType, TextChannel, GuildMember } from 'discord.js'
+import dayjs from 'dayjs'
 
 import { SubscriptionService } from '../services'
 import { botClient } from '../clients'
-import { formatter as dateFormatter } from '../utils'
 import { logger } from '../logger'
 
 import { Command } from './base.command'
@@ -51,7 +51,9 @@ async function execute(interaction: CommandInteraction) {
 
         const next = await subscriptionService.subscribe(channel)
 
-        const formattedDate = dateFormatter(next * 1000).format('LLL')
+        const formattedDate = dayjs(next * 1000).format('LLL')
+
+        logger.info(`User ${interaction.user.id} successfully subscribed to daily updates, next=${next} (${formattedDate})`)
 
         // reply (validate user's subscription)
         await interaction.followUp({

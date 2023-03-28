@@ -1,4 +1,6 @@
 import { Client } from 'discord.js'
+import dayjs from 'dayjs'
+import plugin from 'dayjs/plugin/localizedFormat'
 
 import { commands } from '../commands'
 import { DbManager } from '../db'
@@ -9,6 +11,9 @@ import { logger } from '../logger'
  * This gets invoked when the bot successfully joins a guild and emits the onReady event
  */
 export async function onClientReady(bot: Client<true>) {
+    // extend dayjs so that we can use localized formatting in logs
+    dayjs.extend(plugin)
+
     // register commands
     bot.application.commands.set(commands)
 
