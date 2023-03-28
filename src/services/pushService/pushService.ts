@@ -64,26 +64,26 @@ export class PushService {
 
                     if (channel == null) {
                         reject('Missing channel')
-                    } else {
-                        const textChannel = channel as TextChannel
-
-                        // send update
-                        await textChannel.send({ embeds: [embed], content: summary })
-
-                        // update element in db
-                        await this.dbClient.subscription.update({
-                            data: {
-                                lastSent: now.unix(),
-                                next: now.add(1, 'hour').unix(),
-                            },
-                            where: {
-                                channel: update.channel,
-                            },
-                        })
-
-                        // resolve
-                        resolve(update.next)
                     }
+
+                    const textChannel = channel as TextChannel
+
+                    // send update
+                    await textChannel.send({ embeds: [embed], content: summary })
+
+                    // update element in db
+                    await this.dbClient.subscription.update({
+                        data: {
+                            lastSent: now.unix(),
+                            next: now.add(1, 'hour').unix(),
+                        },
+                        where: {
+                            channel: update.channel,
+                        },
+                    })
+
+                    // resolve
+                    resolve(update.next)
                 })
             })
 
