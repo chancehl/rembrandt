@@ -7,7 +7,7 @@ import { logger } from '../logger'
 import { Command } from './base.command'
 
 async function execute(interaction: CommandInteraction) {
-    const subscriptionService = new SubscriptionService({ client: botClient })
+    const subscriptionService = new SubscriptionService()
 
     try {
         if (interaction.guildId) {
