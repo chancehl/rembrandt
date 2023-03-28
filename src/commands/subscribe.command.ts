@@ -51,7 +51,7 @@ async function execute(interaction: CommandInteraction) {
 
         const next = await subscriptionService.subscribe(channel)
 
-        const formattedDate = dateFormatter(next).format('LLL')
+        const formattedDate = dateFormatter(next * 1000).format('LLL')
 
         // reply (validate user's subscription)
         await interaction.followUp({

@@ -9,7 +9,7 @@ import { MetCollectionService } from '../metCollectionService'
 import { logger } from '../../logger'
 import { SummaryService } from '../summaryService'
 
-export const PUSH_SERVICE_CRON_JOB = '0 * * * *'
+export const PUSH_SERVICE_CRON_JOB = '* * * * *'
 
 export class PushService {
     private dbClient: PrismaClient
@@ -22,7 +22,7 @@ export class PushService {
         cron.schedule(PUSH_SERVICE_CRON_JOB, async () => {
             const next = dayjs().add(1, 'hour').unix()
 
-            logger.info(`Sending updates. Next execution at ${new Date(next).toISOString()}.`)
+            logger.info(`Sending updates. Next execution at ${new Date(next * 1000).toISOString()}.`)
 
             await this.sendUpdates()
         })
