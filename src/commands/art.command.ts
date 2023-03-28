@@ -1,4 +1,4 @@
-import { CommandInteraction, ApplicationCommandType, SlashCommandStringOption, EmbedBuilder } from 'discord.js'
+import { CommandInteraction, ApplicationCommandType, SlashCommandStringOption } from 'discord.js'
 
 import { Command } from './base.command'
 

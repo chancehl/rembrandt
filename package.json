@@ -6,6 +6,8 @@
     "scripts": {
         "build": "tsc",
         "dev:watch": "NODE_ENV=development nodemon src/bot.ts",
+        "lint": "eslint ./src",
+        "release": "npm run lint && npm run build && npm run test",
         "start": "node ./dist/src/bot.js",
         "start:redis": "docker run -p 6379:6379 redis/redis-stack-server:latest",
         "test": "jest"
@@ -16,6 +18,8 @@
     "devDependencies": {
         "@types/jest": "^29.4.1",
         "@types/node-cron": "^3.0.7",
+        "@typescript-eslint/eslint-plugin": "^5.57.0",
+        "@typescript-eslint/parser": "^5.57.0",
         "concurrently": "^7.6.0",
         "eslint": "^8.35.0",
         "jest": "^29.5.0",

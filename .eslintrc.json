@@ -1,11 +1,18 @@
 {
-    "extends": "eslint:recommended",
     "env": {
-        "node": true,
-        "es6": true
+        "browser": true,
+        "es2021": true
     },
+    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+    "overrides": [],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": 2021
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
-    "rules": {}
+    "plugins": ["@typescript-eslint"],
+    "rules": {
+        "no-empty-function": "warn",
+        "@typescript-eslint/no-empty-function": "warn"
+    }
 }

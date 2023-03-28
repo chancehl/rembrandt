@@ -56,6 +56,7 @@ export class PushService {
             const embed = this.embedService.create(object)
 
             const sendAndUpdatePromises = updates.map((update: Subscription) => {
+                // eslint-disable-next-line no-async-promise-executor
                 return new Promise(async (resolve, reject) => {
                     logger.info(`Sending daily update to guild ${update.guild} (channel = ${update.channel})`)
 
