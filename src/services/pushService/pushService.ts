@@ -29,7 +29,7 @@ export class PushService {
         cron.schedule(PUSH_SERVICE_CRON_JOB, async () => {
             const next = dayjs().add(1, 'hour').unix()
 
-            logger.info(`Sending updates. Next execution at ${dayjs(next).format('LLL')}.`)
+            logger.info(`Sending updates. Next execution at ${dayjs(next * 1000).format('LLL')}.`)
 
             await this.sendUpdates()
         })
