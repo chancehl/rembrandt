@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 import { TextChannel } from 'discord.js'
-import dayjs from 'dayjs'
 
 import { SubscriptionDoesNotExistError } from './error'
 import { InjectableServices } from '../services'
+import { ONE_HOUR } from '../../constants'
 
 export class SubscriptionService {
     private dbClient: PrismaClient
@@ -13,9 +13,9 @@ export class SubscriptionService {
     }
 
     async subscribe(channel: TextChannel) {
-        const now = dayjs()
+        const now = Date.now()
 
-        const next = now.add(1, 'hour').unix()
+        const next = now + ONE_HOUR
 
         await this.dbClient.subscription.upsert({
             create: {

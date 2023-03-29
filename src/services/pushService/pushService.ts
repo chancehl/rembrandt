@@ -1,7 +1,6 @@
 import { PrismaClient, Subscription } from '@prisma/client'
 import { TextChannel } from 'discord.js'
 import cron from 'node-cron'
-import dayjs from 'dayjs'
 
 import { botClient } from '../../clients'
 import { logger } from '../../logger'
@@ -9,6 +8,7 @@ import { InjectableServices } from '../services'
 import { EmbedService } from '../embedService'
 import { MetCollectionService } from '../metCollectionService'
 import { SummaryService } from '../summaryService'
+import { ONE_HOUR } from '../../constants'
 
 export const PUSH_SERVICE_CRON_JOB = '0 * * * *'
 
@@ -27,23 +27,19 @@ export class PushService {
 
     async scheduleUpdates() {
         cron.schedule(PUSH_SERVICE_CRON_JOB, async () => {
-            const next = dayjs().add(1, 'hour').unix()
-
-            logger.info(`Sending updates. Next execution at ${dayjs(next * 1000).format('LLL')}.`)
-
             await this.sendUpdates()
         })
     }
 
     async sendUpdates() {
-        const now = dayjs()
+        const now = Date.now()
 
         const updates = await this.dbClient.subscription.findMany({
             where: {
                 active: true,
                 next: {
-                    gt: now.unix(),
-                    lt: now.add(1, 'hour').unix(),
+                    gt: now,
+                    lt: now + ONE_HOUR,
                 },
             },
         })
@@ -74,8 +70,8 @@ export class PushService {
                     // update element in db
                     await this.dbClient.subscription.update({
                         data: {
-                            lastSent: now.unix(),
-                            next: now.add(1, 'hour').unix(),
+                            lastSent: now,
+                            next: now + ONE_HOUR,
                         },
                         where: {
                             channel: update.channel,

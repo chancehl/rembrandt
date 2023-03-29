@@ -33,7 +33,9 @@ async function execute(interaction: CommandInteraction) {
     }
 }
 
+// TODO: re-enable once we've fixed fuzzy search
 // prettier-ignore
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const queryOption = new SlashCommandStringOption()
     .setName('query')
     .setDescription('something to search for')
@@ -43,7 +45,7 @@ const queryOption = new SlashCommandStringOption()
 export const ArtCommand: Command = {
     name: 'art',
     description: 'i show u art',
-    options: [queryOption],
+    // options: [queryOption],
     type: ApplicationCommandType.ChatInput,
     run: execute,
 }

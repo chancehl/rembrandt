@@ -11,7 +11,7 @@ import { logger } from '../logger'
  * This gets invoked when the bot successfully joins a guild and emits the onReady event
  */
 export async function onClientReady(bot: Client<true>) {
-    // extend dayjs so that we can use localized formatting in logs
+    // extend dayjs so that we can used localized formatting
     dayjs.extend(plugin)
 
     // register commands

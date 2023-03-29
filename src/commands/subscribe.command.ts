@@ -50,7 +50,7 @@ async function execute(interaction: CommandInteraction) {
 
         const next = await subscriptionService.subscribe(channel)
 
-        const formattedDate = dayjs(next * 1000).format('LLL')
+        const formattedDate = dayjs(next).format('LLL')
 
         logger.info(`User ${interaction.user.id} successfully subscribed to daily updates, next=${next} (${formattedDate})`)
 
