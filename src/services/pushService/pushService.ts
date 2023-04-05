@@ -37,9 +37,13 @@ export class PushService {
         const updates = await this.dbClient.subscription.findMany({
             where: {
                 active: true,
-                next: {
-                    gt: now,
-                    lt: now + ONE_HOUR,
+                OR: {
+                    next: {
+                        lt: now + ONE_HOUR,
+                    },
+                    lastSent: {
+                        lt: now - ONE_HOUR,
+                    },
                 },
             },
         })
