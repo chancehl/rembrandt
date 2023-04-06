@@ -3,7 +3,7 @@ import { TextChannel } from 'discord.js'
 
 import { SubscriptionDoesNotExistError } from './error'
 import { InjectableServices } from '../services'
-import { ONE_HOUR } from '../../constants'
+import { ONE_DAY } from '../../constants'
 
 export class SubscriptionService {
     private dbClient: PrismaClient
@@ -15,7 +15,7 @@ export class SubscriptionService {
     async subscribe(channel: TextChannel) {
         const now = Date.now()
 
-        const next = now + ONE_HOUR
+        const next = now + ONE_DAY
 
         await this.dbClient.subscription.upsert({
             create: {

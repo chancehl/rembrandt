@@ -8,7 +8,7 @@ import { InjectableServices } from '../services'
 import { EmbedService } from '../embedService'
 import { MetCollectionService } from '../metCollectionService'
 import { SummaryService } from '../summaryService'
-import { ONE_HOUR } from '../../constants'
+import { ONE_DAY, ONE_HOUR } from '../../constants'
 
 export const PUSH_SERVICE_CRON_JOB = '0 * * * *'
 
@@ -42,7 +42,7 @@ export class PushService {
                         lt: now + ONE_HOUR,
                     },
                     lastSent: {
-                        lt: now - ONE_HOUR,
+                        lt: now - ONE_DAY,
                     },
                 },
             },
@@ -75,7 +75,7 @@ export class PushService {
                     await this.dbClient.subscription.update({
                         data: {
                             lastSent: now,
-                            next: now + ONE_HOUR,
+                            next: now + ONE_DAY,
                         },
                         where: {
                             channel: update.channel,
