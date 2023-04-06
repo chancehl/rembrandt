@@ -13,6 +13,7 @@ datasource db {
 model Subscription {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   guild     String  @unique
+  guildName String?
   channel   String  @unique
   active    Boolean
   createdOn String

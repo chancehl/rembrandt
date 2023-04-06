@@ -23,6 +23,7 @@ export class SubscriptionService {
                 active: true,
                 createdOn: new Date().toISOString(),
                 guild: channel.guild.id,
+                guildName: channel.guild.name,
                 channel: channel.id,
             },
             where: {
