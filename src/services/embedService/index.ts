@@ -2,20 +2,15 @@ import { EmbedBuilder } from 'discord.js'
 
 import { CollectionObject } from '../../types'
 
-type ConstructorArgs = {
-    builder: EmbedBuilder
+type CreateArgs = {
+    object: Partial<CollectionObject>
+    builder?: EmbedBuilder
 }
 
 export class EmbedService {
-    builder: EmbedBuilder
-
-    constructor(args?: ConstructorArgs) {
-        this.builder = args?.builder ?? new EmbedBuilder()
-    }
-
     /** Generates a series of key-value pair objects based on the fields present in the response */
-    create(object: Partial<CollectionObject>) {
-        const embed = this.builder
+    create({ object, builder }: CreateArgs) {
+        const embed = builder ?? new EmbedBuilder()
 
         if (object.primaryImage) {
             embed.setImage(object.primaryImage)

@@ -53,7 +53,7 @@ export class PushService {
         if (updates.length > 0) {
             const object = await this.metCollectionService.getRandomCollectionObject()
             const summary = await this.summaryService.generateSummary(object)
-            const embed = this.embedService.create(object)
+            const embed = this.embedService.create({ object })
 
             const sendAndUpdatePromises = updates.map((update: Subscription) => {
                 // eslint-disable-next-line no-async-promise-executor

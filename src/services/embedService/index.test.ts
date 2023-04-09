@@ -4,12 +4,12 @@ import { EmbedService } from './index'
 
 describe('EmbedService', () => {
     const testEmbedBuilder = new EmbedBuilder()
-    const embedService = new EmbedService({ builder: testEmbedBuilder })
+    const embedService = new EmbedService()
 
     test('sets the title when one is present on the object', () => {
         const titleSpy = jest.spyOn(testEmbedBuilder, 'setTitle')
 
-        embedService.create({ objectID: -1, title: 'title' })
+        embedService.create({ object: { objectID: -1, title: 'title' }, builder: testEmbedBuilder })
 
         expect(titleSpy).toHaveBeenCalledTimes(1)
         expect(titleSpy).toHaveBeenCalledWith('title')
@@ -18,7 +18,7 @@ describe('EmbedService', () => {
     test('sets the description when the artist display name is present on the object', () => {
         const descriptionSpy = jest.spyOn(testEmbedBuilder, 'setDescription')
 
-        embedService.create({ objectID: -1, artistDisplayName: 'chance' })
+        embedService.create({ object: { objectID: -1, artistDisplayName: 'chance' }, builder: testEmbedBuilder })
 
         expect(descriptionSpy).toHaveBeenCalledTimes(1)
         expect(descriptionSpy).toHaveBeenCalledWith('by chance')
@@ -27,7 +27,7 @@ describe('EmbedService', () => {
     test('sets the image when the primary image name is present on the object', () => {
         const imageSpy = jest.spyOn(testEmbedBuilder, 'setImage')
 
-        embedService.create({ objectID: -1, primaryImage: 'https://not-a-real-site.com/img.png' })
+        embedService.create({ object: { objectID: -1, primaryImage: 'https://not-a-real-site.com/img.png' }, builder: testEmbedBuilder })
 
         expect(imageSpy).toHaveBeenCalledTimes(1)
         expect(imageSpy).toHaveBeenCalledWith('https://not-a-real-site.com/img.png')
@@ -44,7 +44,7 @@ describe('EmbedService', () => {
             primaryImage: 'https://not-a-real-image.com/fake.png',
         }
 
-        embedService.create({ objectID: -1, ...relevantData })
+        embedService.create({ object: { objectID: -1, ...relevantData }, builder: testEmbedBuilder })
 
         expect(fieldSpy).toHaveBeenCalledTimes(Object.keys(relevantData).length)
     })
