@@ -14,8 +14,11 @@ export const PUSH_SERVICE_CRON_JOB = '0 * * * *'
 
 export class PushService {
     private dbClient: PrismaClient
+
     private metCollectionService: MetCollectionService
+
     private embedService: EmbedService
+
     private summaryService: SummaryService
 
     constructor(args?: Partial<Omit<InjectableServices, 'PushService'>>) {
