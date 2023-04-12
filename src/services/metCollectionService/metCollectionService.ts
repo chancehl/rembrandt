@@ -3,14 +3,15 @@ import axios from 'axios'
 import { CollectionObject, GetAllCollectionObjectsResponse, SearchCollectionObjectsResponse } from '../../types'
 import { pickRandomElement } from '../../utils'
 import { logger } from '../../logger'
+import { BANNED_OBJECTS } from '../../constants'
 
 export const BASE_URL = 'https://collectionapi.metmuseum.org/public/collection/v1'
 
 export class MetCollectionService {
-    private missingImageCache // TODO: replace this with redis
+    private invalidObjectCache // TODO: replace this with redis
 
-    constructor(missingImageCache?: number[]) {
-        this.missingImageCache = missingImageCache ?? []
+    constructor(invalidObjectCache?: number[]) {
+        this.invalidObjectCache = invalidObjectCache ?? []
     }
 
     async getAllCollectionObjectsWithImages(): Promise<SearchCollectionObjectsResponse> {
@@ -51,19 +52,35 @@ export class MetCollectionService {
     }
 
     private async pickAndFetchRandomObject(objectIds: number[]): Promise<CollectionObject> {
-        // filter out things we know are missing images
-        const validObjectIds = objectIds.filter((id) => !this.missingImageCache.includes(id))
+        // filter out things we know are invalid
+        const validObjectIds = objectIds.filter((id) => !this.invalidObjectCache.includes(id))
 
         let object = await this.getCollectionObject(pickRandomElement(validObjectIds))
 
-        while (object.primaryImage == null || object.primaryImage.length === 0) {
-            logger.warn(`Object ${object.objectID} had a missing primary image, retrying`)
+        while (this.objectIsMissingImage(object) || this.objectIsBanned(object)) {
+            logger.warn(`Invalid object: id=${object.objectID}, primaryImage=${object.primaryImage}, title=${object.title}`)
 
-            this.missingImageCache.push(object.objectID)
+            this.invalidObjectCache.push(object.objectID)
 
             object = await this.getCollectionObject(pickRandomElement(objectIds))
         }
 
         return object
+    }
+
+    private objectIsBanned(object: CollectionObject): boolean {
+        const matchingBannedObject = BANNED_OBJECTS.find((bannedObject) => {
+            if (bannedObject.id != null) {
+                return bannedObject.id === object.objectID
+            }
+
+            return bannedObject.title === object.title
+        })
+
+        return matchingBannedObject == null
+    }
+
+    private objectIsMissingImage(object: CollectionObject): boolean {
+        return object.primaryImage == null || object.primaryImage.length === 0
     }
 }
