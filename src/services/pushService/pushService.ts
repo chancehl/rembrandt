@@ -58,12 +58,12 @@ export class PushService {
             const summary = await this.summaryService.generateSummary(object)
             const embed = this.embedService.create({ object })
 
-            const sendAndUpdatePromises = updates.map((update: Subscription) => {
+            const sendAndUpdatePromises = updates.map((subscription: Subscription) => {
                 // eslint-disable-next-line no-async-promise-executor
                 return new Promise(async (resolve, reject) => {
-                    logger.info(`Sending daily update to guild ${update.guild} (channel = ${update.channel})`)
+                    logger.info(`Sending daily update to guild ${subscription.guild} (channel = ${subscription.channel})`)
 
-                    const channel = await botClient.channels.fetch(update.channel)
+                    const channel = await botClient.channels.fetch(subscription.channel)
 
                     if (channel == null) {
                         reject('Missing channel')
@@ -74,19 +74,25 @@ export class PushService {
                     // send update
                     await textChannel.send({ embeds: [embed], content: summary })
 
+                    // calculate when to send the next update
+                    // prettier-ignore
+                    const nextUpdate = subscription.next == null 
+                        ? now + ONE_DAY 
+                        : Number(subscription.next) + ONE_DAY
+
                     // update element in db
                     await this.dbClient.subscription.update({
                         data: {
                             lastSent: now,
-                            next: now + ONE_DAY,
+                            next: nextUpdate,
                         },
                         where: {
-                            channel: update.channel,
+                            channel: subscription.channel,
                         },
                     })
 
                     // resolve
-                    resolve(update.next)
+                    resolve(subscription.next)
                 })
             })
 
