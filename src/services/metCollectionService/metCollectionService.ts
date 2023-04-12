@@ -77,7 +77,7 @@ export class MetCollectionService {
             return bannedObject.title === object.title
         })
 
-        return matchingBannedObject == null
+        return matchingBannedObject != null
     }
 
     private objectIsMissingImage(object: CollectionObject): boolean {
