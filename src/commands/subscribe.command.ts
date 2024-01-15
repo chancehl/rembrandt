@@ -56,7 +56,7 @@ async function execute(interaction: CommandInteraction) {
 
         // reply (validate user's subscription)
         await interaction.followUp({
-            content: `Done! I'll send updates to **#${channel.name}** every 24 hours. You'll get your next one at **${formattedDate}**. Feel free to use the /art command in the meantime.`,
+            content: `Done! I'll send updates to **#${channel.name}** every 24 hours. You'll get your next one at **${formattedDate}**. Feel free to use the \`/art\` command in the meantime.`,
         })
     } catch (err) {
         logger.error(`Encountered the following error while subscribing to daily updates: ${(err as unknown as Error).message}`)

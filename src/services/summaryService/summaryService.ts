@@ -12,7 +12,7 @@ export class SummaryService {
         apiKey: process.env.OPEN_AI_API_KEY,
     })
 
-    private prompt = `You are an art historian working at the Metropolitan Museum of Art. Write a brief summary (1-2 paragraphs) as if you were giving a tour of the museum describing the following piece in your collection: PIECE_IDENTIFIER. Do not introduce yourself or welcome the visitors. Only reply with information about the artwork.`
+    private prompt = `You are an art historian working at the Metropolitan Museum of Art. Write a brief summary (1-2 paragraphs) as if you were giving a tour of the museum describing the following piece in your collection: PIECE_IDENTIFIER. Do not introduce yourself or welcome the visitors. Do not say "Welcome to the Metropolitan Museum of Art". Only reply with information about the artwork.`
 
     constructor(args?: ConstructorArgs) {
         if (args?.openai) {
