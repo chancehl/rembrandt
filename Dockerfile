@@ -1,5 +1,8 @@
 FROM node:alpine
 
+# Set TZ
+ENV TZ="America/Los_Angeles"
+
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -14,11 +17,11 @@ RUN npm install
 
 # Bundle app source
 COPY . .
+COPY run.sh .
+
+# migrate & start scripts
+RUN chmod +x run.sh
 
 EXPOSE 8080
 
-RUN npx prisma generate
-
-RUN npm run build
-
-CMD [ "npm", "start" ]
+CMD source run.sh
